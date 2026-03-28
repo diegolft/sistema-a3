@@ -2,3 +2,9 @@ node_modules
 dist
 *.local
 .DS_Store
+
+# lockfiles de outros gerenciadores (projeto usa só Bun)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.npm
