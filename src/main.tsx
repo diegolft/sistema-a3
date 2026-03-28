@@ -4,7 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import { App } from "@/app/App";
 import "@/styles/global.css";
 
-createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root");
+if (!rootEl) {
+	throw new Error('Elemento "#root" não encontrado.');
+}
+
+createRoot(rootEl).render(
 	<StrictMode>
 		<BrowserRouter>
 			<App />

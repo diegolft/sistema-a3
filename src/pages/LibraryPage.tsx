@@ -1,0 +1,68 @@
+import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { useLibrary } from "@/contexts/LibraryContext";
+import { formatBRL, MOCK_GAMES } from "@/data/mockGames";
+
+export function LibraryPage() {
+	const { ownedIds } = useLibrary();
+
+	const ownedGames = useMemo(() => MOCK_GAMES.filter((g) => ownedIds.includes(g.id)), [ownedIds]);
+
+	return (
+		<div>
+			<header className="mb-7 md:mb-8">
+				<h1 className="text-2xl font-bold tracking-tight text-neutral-100 md:text-3xl">
+					Minha Biblioteca
+				</h1>
+				<p className="mt-1.5 text-[14px] text-neutral-400">Jogos que você adquiriu</p>
+			</header>
+
+			{ownedGames.length === 0 ? (
+				<div className="flex flex-col items-center justify-center py-16 text-center">
+					<p className="max-w-sm text-[14px] text-neutral-400">
+						Você ainda não tem jogos na biblioteca. Finalize uma compra no carrinho para vê-los
+						aqui.
+					</p>
+					<Link
+						to="/jogos"
+						className="mt-6 rounded-full bg-[var(--color-gs-accent)] px-6 py-3 text-[14px] font-semibold text-white shadow-[0_4px_18px_rgba(255,140,51,0.32)] transition hover:bg-[var(--color-gs-accent-hover)]"
+					>
+						Explorar Jogos
+					</Link>
+				</div>
+			) : (
+				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					{ownedGames.map((game) => (
+						<motion.div
+							key={game.id}
+							layout
+							whileHover={{ scale: 1.02, y: -2 }}
+							transition={{ type: "spring", stiffness: 400, damping: 25 }}
+							className="overflow-hidden rounded-xl bg-gs-surface shadow-[0_3px_18px_rgba(0,0,0,0.4)] ring-1 ring-white/[0.06]"
+						>
+							<Link to={`/jogos/${game.id}`}>
+								<div className="relative aspect-[16/10] overflow-hidden">
+									<img
+										src={game.image}
+										alt={`Capa de ${game.title}`}
+										className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
+									/>
+									<span className="absolute left-3 top-3 rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-neutral-100 backdrop-blur-sm">
+										{game.category}
+									</span>
+								</div>
+								<div className="p-3.5">
+									<h3 className="text-[15px] font-bold text-neutral-100">{game.title}</h3>
+									<p className="mt-1.5 text-[14px] font-bold text-neutral-100">
+										{formatBRL(game.price)}
+									</p>
+								</div>
+							</Link>
+						</motion.div>
+					))}
+				</div>
+			)}
+		</div>
+	);
+}
