@@ -1,8 +1,13 @@
 import { Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { GameCard } from "@/components/games/GameCard";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { GAME_CATEGORIES, MOCK_GAMES } from "@/data/mockGames";
+import { useAuth } from "@/contexts/AuthContext";
+import { listCategories } from "@/services/api/categories";
+import { listGames, listPublicGames } from "@/services/api/games";
+import type { ExhibitionGame, GameSummary } from "@/types/domain";
+
+type CatalogEntry = ExhibitionGame | GameSummary;
 
 function GameCardSkeleton() {
 	return (
@@ -10,13 +15,10 @@ function GameCardSkeleton() {
 			<Skeleton className="aspect-[16/10] w-full rounded-none" />
 			<div className="space-y-2.5 p-3.5">
 				<Skeleton className="h-4 w-[75%]" />
-				<Skeleton className="h-3 w-14" />
+				<Skeleton className="h-3 w-28" />
 				<div className="flex items-center justify-between pt-0.5">
 					<Skeleton className="h-6 w-24" />
-					<div className="flex gap-1.5">
-						<Skeleton className="h-9 w-9 rounded-lg" />
-						<Skeleton className="h-9 w-9 rounded-lg" />
-					</div>
+					<Skeleton className="h-9 w-20 rounded-lg" />
 				</div>
 			</div>
 		</div>
@@ -24,29 +26,86 @@ function GameCardSkeleton() {
 }
 
 export function GamesPage() {
+	const { isAuthenticated, token } = useAuth();
 	const [query, setQuery] = useState("");
 	const [category, setCategory] = useState<string>("Todos");
+	const [categories, setCategories] = useState<string[]>(["Todos"]);
+	const [games, setGames] = useState<CatalogEntry[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const deferredQuery = useDeferredValue(query);
 
 	useEffect(() => {
-		const t = window.setTimeout(() => setLoading(false), 900);
-		return () => window.clearTimeout(t);
-	}, []);
+		let cancelled = false;
+
+		async function load() {
+			setLoading(true);
+			setError(null);
+			try {
+				if (isAuthenticated && token) {
+					const [nextGames, nextCategories] = await Promise.all([
+						listGames(token),
+						listCategories(token),
+					]);
+
+					if (!cancelled) {
+						setGames(nextGames);
+						setCategories(["Todos", ...nextCategories.map((item) => item.nome)]);
+					}
+					return;
+				}
+
+				const nextGames = await listPublicGames();
+				if (!cancelled) {
+					setGames(nextGames);
+					setCategories(["Todos", ...new Set(nextGames.map((item) => item.categoriaNome))]);
+				}
+			} catch (nextError) {
+				if (!cancelled) {
+					setError(nextError instanceof Error ? nextError.message : "Nao foi possivel carregar o catalogo.");
+					setGames([]);
+					setCategories(["Todos"]);
+				}
+			} finally {
+				if (!cancelled) {
+					setLoading(false);
+				}
+			}
+		}
+
+		void load();
+		return () => {
+			cancelled = true;
+		};
+	}, [isAuthenticated, token]);
+
+	useEffect(() => {
+		if (!categories.includes(category)) {
+			setCategory("Todos");
+		}
+	}, [categories, category]);
 
 	const filtered = useMemo(() => {
-		const q = query.trim().toLowerCase();
-		return MOCK_GAMES.filter((g) => {
-			const catOk = category === "Todos" || g.category === category;
-			const qOk = !q || g.title.toLowerCase().includes(q);
-			return catOk && qOk;
+		const normalizedQuery = deferredQuery.trim().toLowerCase();
+		return games.filter((game) => {
+			const categoryOk = category === "Todos" || game.categoriaNome === category;
+			const queryOk =
+				!normalizedQuery ||
+				game.nome.toLowerCase().includes(normalizedQuery) ||
+				game.empresaNome.toLowerCase().includes(normalizedQuery);
+			return categoryOk && queryOk;
 		});
-	}, [query, category]);
+	}, [category, deferredQuery, games]);
 
 	return (
 		<div>
 			<header className="mb-6 md:mb-7">
 				<h1 className="text-2xl font-bold tracking-tight text-neutral-100 md:text-3xl">Jogos</h1>
-				<p className="mt-1.5 text-[14px] text-neutral-400">Explore nosso catálogo completo.</p>
+				<p className="mt-1.5 text-[14px] text-neutral-400">
+					{isAuthenticated
+						? "Explore o catalogo completo conectado a API."
+						: "Visitantes veem a vitrine publica. Entre para abrir detalhes e comprar."}
+				</p>
 			</header>
 
 			<div className="mb-7 md:mb-8">
@@ -59,27 +118,29 @@ export function GamesPage() {
 						type="search"
 						placeholder="Buscar jogos..."
 						value={query}
-						onChange={(e) => setQuery(e.target.value)}
+						onChange={(event) => setQuery(event.target.value)}
 						className="w-full rounded-full border border-white/10 bg-gs-raised py-3 pl-11 pr-5 text-[14px] text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-[var(--color-gs-accent)]/30 focus:bg-gs-surface focus:ring-2 focus:ring-[var(--color-gs-accent)]/20"
 					/>
 				</div>
 				<div className="mt-4 flex flex-wrap gap-2">
-					{GAME_CATEGORIES.map((c) => (
+					{categories.map((currentCategory) => (
 						<button
-							key={c}
+							key={currentCategory}
 							type="button"
-							onClick={() => setCategory(c)}
+							onClick={() => setCategory(currentCategory)}
 							className={`rounded-full px-4 py-2 text-[13px] font-semibold transition ${
-								category === c
+								category === currentCategory
 									? "bg-[var(--color-gs-accent)] text-white shadow-[0_4px_16px_rgba(255,140,51,0.35)]"
 									: "bg-gs-raised text-neutral-200 hover:bg-neutral-700/80"
 							}`}
 						>
-							{c}
+							{currentCategory}
 						</button>
 					))}
 				</div>
 			</div>
+
+			{error ? <p className="mb-5 text-[14px] text-amber-300">{error}</p> : null}
 
 			{loading ? (
 				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -92,7 +153,11 @@ export function GamesPage() {
 			) : (
 				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{filtered.map((game) => (
-						<GameCard key={game.id} game={game} />
+						<GameCard
+							key={"id" in game ? game.id : `${game.nome}-${game.empresaNome}`}
+							game={game}
+							mode={isAuthenticated ? "private" : "public"}
+						/>
 					))}
 				</div>
 			)}

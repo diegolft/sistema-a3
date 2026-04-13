@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
-import { Gamepad2, Heart, LogOut, Menu, ShoppingCart, User, X } from "lucide-react";
+import {
+	BarChart3,
+	Gamepad2,
+	Heart,
+	LogOut,
+	Menu,
+	ShoppingCart,
+	User,
+	X,
+} from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -7,19 +16,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 
 export function AppHeader() {
-	const { isAuthenticated, logout } = useAuth();
+	const { isAuthenticated, isAdmin, logout } = useAuth();
 	const { itemCount } = useCart();
 	const navigate = useNavigate();
 	const [logoutOpen, setLogoutOpen] = useState(false);
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-	const headerBar = "border-white/10 bg-[#121212]";
-	const navBase =
-		"text-[15px] font-medium text-neutral-400 transition-colors hover:text-neutral-200";
-	const navActive = "text-neutral-100 font-semibold";
-	const iconBtn =
+	const navBase = "text-[15px] font-medium text-neutral-400 transition-colors hover:text-neutral-200";
+	const navActive = "font-semibold text-neutral-100";
+	const iconButton =
 		"flex h-10 w-10 items-center justify-center rounded-full text-neutral-400 transition hover:bg-white/10";
-	const logoGame = "text-neutral-100";
 
 	function confirmLogout() {
 		logout();
@@ -31,11 +37,11 @@ export function AppHeader() {
 	const closeMobileNav = () => setMobileNavOpen(false);
 
 	return (
-		<header className={`sticky top-0 z-40 w-full border-b ${headerBar}`}>
+		<header className="sticky top-0 z-40 w-full border-b border-white/10 bg-[#121212]">
 			<ConfirmDialog
 				open={logoutOpen}
 				title="Sair da conta?"
-				description="Você precisará entrar de novo para acessar a biblioteca, o perfil e o carrinho salvos neste aparelho."
+				description="Voce precisara entrar novamente para acessar biblioteca, perfil e painel administrativo."
 				cancelLabel="Cancelar"
 				confirmLabel="Sair"
 				onCancel={() => setLogoutOpen(false)}
@@ -44,25 +50,18 @@ export function AppHeader() {
 			<div className="relative flex h-[60px] w-full max-w-none items-center justify-between gap-4 px-5 sm:px-10 md:px-14 lg:px-20 xl:px-24">
 				<Link to={isAuthenticated ? "/jogos" : "/"} className="flex shrink-0 items-center gap-2">
 					<Gamepad2 className="h-7 w-7 text-[var(--color-gs-accent)]" strokeWidth={1.75} />
-					<span className={`text-[17px] font-bold tracking-tight ${logoGame}`}>
+					<span className="text-[17px] font-bold tracking-tight text-neutral-100">
 						Game <span className="text-[var(--color-gs-accent)]">Store</span>
 					</span>
 				</Link>
 
-				<nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 md:flex">
+				<nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
 					{isAuthenticated ? null : (
-						<NavLink
-							to="/"
-							end
-							className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
-						>
-							Início
+						<NavLink to="/" end className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}>
+							Inicio
 						</NavLink>
 					)}
-					<NavLink
-						to="/jogos"
-						className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
-					>
+					<NavLink to="/jogos" className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}>
 						Jogos
 					</NavLink>
 					{isAuthenticated ? (
@@ -73,13 +72,21 @@ export function AppHeader() {
 							Biblioteca
 						</NavLink>
 					) : null}
+					{isAdmin ? (
+						<NavLink
+							to="/admin/usuarios"
+							className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
+						>
+							Admin
+						</NavLink>
+					) : null}
 				</nav>
 
 				<div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2 md:gap-3">
 					<button
 						type="button"
-						className={`${iconBtn} md:hidden`}
-						onClick={() => setMobileNavOpen((o) => !o)}
+						className={`${iconButton} md:hidden`}
+						onClick={() => setMobileNavOpen((open) => !open)}
 						aria-expanded={mobileNavOpen}
 						aria-controls="mobile-main-nav"
 						aria-label={mobileNavOpen ? "Fechar menu" : "Abrir menu"}
@@ -90,23 +97,23 @@ export function AppHeader() {
 							<Menu className="h-5 w-5" strokeWidth={1.75} />
 						)}
 					</button>
+
 					{isAuthenticated ? (
 						<>
+							{isAdmin ? (
+								<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
+									<Link to="/admin/usuarios" className={iconButton} aria-label="Painel admin">
+										<BarChart3 className="h-5 w-5" strokeWidth={1.75} />
+									</Link>
+								</motion.div>
+							) : null}
 							<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
-								<Link
-									to="/lista-desejos"
-									className={iconBtn}
-									aria-label="Lista de desejos"
-								>
+								<Link to="/lista-desejos" className={iconButton} aria-label="Lista de desejos">
 									<Heart className="h-5 w-5" strokeWidth={1.75} />
 								</Link>
 							</motion.div>
-							<motion.div
-								whileHover={{ scale: 1.06 }}
-								whileTap={{ scale: 0.96 }}
-								className="relative"
-							>
-								<Link to="/carrinho" className={iconBtn} aria-label="Carrinho">
+							<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }} className="relative">
+								<Link to="/carrinho" className={iconButton} aria-label="Carrinho">
 									<ShoppingCart className="h-5 w-5" strokeWidth={1.75} />
 								</Link>
 								{itemCount > 0 ? (
@@ -116,7 +123,7 @@ export function AppHeader() {
 								) : null}
 							</motion.div>
 							<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
-								<Link to="/perfil" className={iconBtn} aria-label="Perfil">
+								<Link to="/perfil" className={iconButton} aria-label="Perfil">
 									<User className="h-5 w-5" strokeWidth={1.75} />
 								</Link>
 							</motion.div>
@@ -125,7 +132,7 @@ export function AppHeader() {
 								whileHover={{ scale: 1.06 }}
 								whileTap={{ scale: 0.96 }}
 								onClick={() => setLogoutOpen(true)}
-								className={iconBtn}
+								className={iconButton}
 								aria-label="Sair"
 							>
 								<LogOut className="h-5 w-5" strokeWidth={1.75} />
@@ -154,7 +161,7 @@ export function AppHeader() {
 				<nav
 					id="mobile-main-nav"
 					className="border-t border-white/10 bg-[#121212] px-5 py-4 md:hidden"
-					aria-label="Navegação principal"
+					aria-label="Navegacao principal"
 				>
 					<div className="mx-auto flex max-w-7xl flex-col gap-1">
 						{isAuthenticated ? null : (
@@ -166,7 +173,7 @@ export function AppHeader() {
 									`rounded-lg px-3 py-2.5 ${navBase} ${isActive ? navActive : ""}`
 								}
 							>
-								Início
+								Inicio
 							</NavLink>
 						)}
 						<NavLink
@@ -187,6 +194,17 @@ export function AppHeader() {
 								}
 							>
 								Biblioteca
+							</NavLink>
+						) : null}
+						{isAdmin ? (
+							<NavLink
+								to="/admin/usuarios"
+								onClick={closeMobileNav}
+								className={({ isActive }) =>
+									`rounded-lg px-3 py-2.5 ${navBase} ${isActive ? navActive : ""}`
+								}
+							>
+								Admin
 							</NavLink>
 						) : null}
 					</div>

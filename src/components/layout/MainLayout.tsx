@@ -27,17 +27,21 @@ export function MainLayout() {
 			<main
 				className={`w-full flex-1 px-5 pb-9 pt-5 md:px-6 md:pb-12 md:pt-7 ${isLanding ? "" : "mx-auto max-w-7xl"}`}
 			>
-				<AnimatePresence mode="wait">
-					<motion.div
-						key={location.pathname}
-						initial={{ opacity: 0, y: 10 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -8 }}
-						transition={{ type: "spring", stiffness: 380, damping: 32 }}
-					>
-						<Outlet />
-					</motion.div>
-				</AnimatePresence>
+			{/*
+			 * Nao use mode="wait" nem opacity:0 no enter: com React 19 + StrictMode o exit/enter
+			 * do Outlet pode travar e a tela nova ficar invisivel ate uma segunda navegacao.
+			 */}
+			<AnimatePresence initial={false}>
+				<motion.div
+					key={location.pathname}
+					initial={{ y: 10 }}
+					animate={{ y: 0, opacity: 1 }}
+					exit={{ y: -6, opacity: 1 }}
+					transition={{ type: "spring", stiffness: 420, damping: 34 }}
+				>
+					<Outlet />
+				</motion.div>
+			</AnimatePresence>
 			</main>
 			<AppFooter />
 		</div>

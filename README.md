@@ -1,31 +1,38 @@
-# Game Store — sistema-a3
+# Game Store - sistema-a3
 
-Frontend da loja de jogos digitais em **React 19**, **Vite 6**, **Tailwind CSS 4** e **TypeScript**. Inclui catálogo (dados mock), carrinho, lista de desejos, biblioteca, perfil e fluxos de autenticação com opção de **modo mock** (sem backend).
+Frontend da loja de jogos digitais em **React 19**, **Vite 6**, **Tailwind CSS 4** e
+**TypeScript**, agora integrado a `api-vendas-jogos-digitais`.
 
-## Pré-requisitos
+## O que a aplicacao consome
 
-- [Bun](https://bun.sh) **1.2 ou superior** (o projeto declara `packageManager: bun@1.3.11`).
+- autenticacao real com JWT
+- vitrine publica em `GET /api/v1/public/jogos`
+- catalogo autenticado, detalhe, reviews, carrinho, wishlist, biblioteca e vendas
+- painel administrativo para usuarios, empresas, perfis, jogos, categorias e relatorios
 
-## Instalação
+## Pre-requisitos
+
+- [Bun](https://bun.sh) 1.2 ou superior
+
+## Instalacao
 
 ```bash
-git clone <url-do-repositório>
+git clone <url-do-repositorio>
 cd sistema-a3
 bun install
 ```
 
-## Variáveis de ambiente
+## Variaveis de ambiente
 
-Copie o exemplo e ajuste conforme necessário:
+Copie o exemplo e ajuste a URL da API:
 
 ```bash
 cp .env.example .env
 ```
 
-| Variável | Descrição |
-|----------|-----------|
-| `VITE_API_URL` | URL base da API REST (sem barra no final). Ex.: `http://localhost:3000`. Se vazia, as requisições usam caminhos relativos (útil atrás do mesmo host/proxy). |
-| `VITE_USE_AUTH_MOCK` | Defina como `true` para simular login/cadastro **sem** chamar a API. Qualquer outro valor ou ausência usa a API real (com token JWT). |
+| Variavel | Descricao |
+| --- | --- |
+| `VITE_API_URL` | URL base da API REST, sem barra final. Ex.: `http://localhost:3000` |
 
 ## Rodar em desenvolvimento
 
@@ -33,36 +40,20 @@ cp .env.example .env
 bun run dev
 ```
 
-O Vite exibirá o endereço local (por padrão `http://localhost:5173`).
-
-## Build de produção
+## Build
 
 ```bash
 bun run build
 ```
 
-Saída em `dist/`. Para testar o build localmente:
+## Estrutura
 
-```bash
-bun run preview
-```
+- `src/app/` - composicao da aplicacao e rotas
+- `src/contexts/` - sessao, carrinho, biblioteca, wishlist e historico de vendas
+- `src/services/api/` - cliente HTTP, mapeadores e consumo dos endpoints
+- `src/pages/` - telas publicas, autenticadas e administrativas
 
-## Qualidade de código
+## Credenciais de seed da API
 
-```bash
-bun run lint    # Biome — lint
-bun run format  # Biome — formatar
-bun run check   # Biome — lint + format (com correções)
-```
-
-## Estrutura (resumo)
-
-- `src/app/` — rotas e composição da aplicação  
-- `src/pages/` — telas (jogos, carrinho, auth, etc.)  
-- `src/components/` — UI reutilizável e layout  
-- `src/contexts/` — estado global (auth, carrinho, biblioteca, wishlist)  
-- `src/services/api/` — cliente HTTP e autenticação  
-
-## API backend
-
-Para usar login e rotas reais, é necessário um backend compatível (por exemplo a API Nest em outro repositório). Configure `VITE_API_URL` apontando para esse servidor e mantenha `VITE_USE_AUTH_MOCK` **diferente** de `true`.
+- administrador: `admin@avjd.com` / `admin123`
+- cliente: `cliente@avjd.com` / `cliente123`

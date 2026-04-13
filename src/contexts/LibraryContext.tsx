@@ -1,37 +1,63 @@
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { requireContext } from "@/lib/context";
-import { readJsonArray, safeSetJson } from "@/lib/storage";
-
-const STORAGE_KEY = "sistema-a3-library";
-
-const isStringId = (x: unknown): x is string => typeof x === "string";
-const readIds = () => readJsonArray(STORAGE_KEY, isStringId);
-const writeIds = (ids: string[]) => safeSetJson(STORAGE_KEY, ids);
+import { listOwnedGames } from "@/services/api/users";
+import type { OwnedGame } from "@/types/domain";
+import { useAuth } from "./AuthContext";
 
 type LibraryContextValue = {
-	ownedIds: string[];
-	isOwned: (gameId: string) => boolean;
-	addOwned: (gameIds: string[]) => void;
+	ownedGames: OwnedGame[];
+	ownedIds: number[];
+	isLoading: boolean;
+	isOwned: (gameId: number) => boolean;
+	refreshOwnedGames: () => Promise<void>;
 };
 
 const LibraryContext = createContext<LibraryContextValue | null>(null);
 
 export function LibraryProvider({ children }: { children: ReactNode }) {
-	const [ownedIds, setOwnedIds] = useState<string[]>(() => readIds());
+	const { token, isAuthenticated } = useAuth();
+	const [ownedGames, setOwnedGames] = useState<OwnedGame[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const addOwned = useCallback((gameIds: string[]) => {
-		setOwnedIds((prev) => {
-			const next = new Set(prev);
-			for (const id of gameIds) next.add(id);
-			const arr = [...next];
-			writeIds(arr);
-			return arr;
-		});
-	}, []);
+	const refreshOwnedGames = useCallback(async () => {
+		if (!token) {
+			setOwnedGames([]);
+			setIsLoading(false);
+			return;
+		}
+		setIsLoading(true);
+		try {
+			const games = await listOwnedGames(token);
+			setOwnedGames(games);
+		} finally {
+			setIsLoading(false);
+		}
+	}, [token]);
 
-	const isOwned = useCallback((gameId: string) => ownedIds.includes(gameId), [ownedIds]);
+	useEffect(() => {
+		if (!isAuthenticated || !token) {
+			setOwnedGames([]);
+			setIsLoading(false);
+			return;
+		}
+		void refreshOwnedGames();
+	}, [isAuthenticated, refreshOwnedGames, token]);
 
-	const value = useMemo(() => ({ ownedIds, isOwned, addOwned }), [ownedIds, isOwned, addOwned]);
+	const ownedIds = useMemo(() => ownedGames.map((entry) => entry.jogo.id), [ownedGames]);
+	const isOwned = useCallback((gameId: number) => ownedIds.includes(gameId), [ownedIds]);
+
+	const value = useMemo(
+		() => ({ ownedGames, ownedIds, isLoading, isOwned, refreshOwnedGames }),
+		[ownedGames, ownedIds, isLoading, isOwned, refreshOwnedGames],
+	);
 
 	return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
 }

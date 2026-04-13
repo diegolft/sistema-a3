@@ -1,9 +1,7 @@
-import { LANDING_BANNER_IMAGES } from "@/data/mockGames";
-
 function rotateUrls(urls: string[], start: number): string[] {
 	if (urls.length === 0) return [];
-	const s = start % urls.length;
-	return [...urls.slice(s), ...urls.slice(0, s)];
+	const safeIndex = start % urls.length;
+	return [...urls.slice(safeIndex), ...urls.slice(0, safeIndex)];
 }
 
 function BannerColumn({
@@ -15,14 +13,11 @@ function BannerColumn({
 	direction: "up" | "down";
 	durationSec: number;
 }) {
-	const animClass = direction === "up" ? "gs-landing-col-up" : "gs-landing-col-down";
+	const animationClass = direction === "up" ? "gs-landing-col-up" : "gs-landing-col-down";
 
 	return (
 		<div className="h-full min-h-[100vh] w-full min-w-0 flex-1 overflow-hidden">
-			<div
-				className={`flex flex-col gap-3 ${animClass}`}
-				style={{ animationDuration: `${durationSec}s` }}
-			>
+			<div className={`flex flex-col gap-3 ${animationClass}`} style={{ animationDuration: `${durationSec}s` }}>
 				<div className="flex flex-col gap-3">
 					{urls.map((src) => (
 						<div
@@ -48,11 +43,16 @@ function BannerColumn({
 	);
 }
 
-export function LandingBackgroundCarousel() {
-	const base = LANDING_BANNER_IMAGES;
-	const left = rotateUrls(base, 0);
-	const mid = rotateUrls(base, Math.max(1, Math.floor(base.length / 3)));
-	const right = rotateUrls(base, Math.max(2, Math.floor((2 * base.length) / 3)));
+type Props = {
+	images: string[];
+};
+
+export function LandingBackgroundCarousel({ images }: Props) {
+	if (images.length === 0) return null;
+
+	const left = rotateUrls(images, 0);
+	const center = rotateUrls(images, Math.max(1, Math.floor(images.length / 3)));
+	const right = rotateUrls(images, Math.max(2, Math.floor((2 * images.length) / 3)));
 
 	return (
 		<div
@@ -66,7 +66,7 @@ export function LandingBackgroundCarousel() {
 						style={{ transform: "rotate(-5deg) scale(1.03)" }}
 					>
 						<BannerColumn urls={left} direction="up" durationSec={72} />
-						<BannerColumn urls={mid} direction="down" durationSec={84} />
+						<BannerColumn urls={center} direction="down" durationSec={84} />
 						<BannerColumn urls={right} direction="up" durationSec={78} />
 					</div>
 				</div>

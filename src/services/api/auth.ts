@@ -4,6 +4,7 @@ export type RegisterBody = {
 	email: string;
 	password: string;
 	name?: string;
+	dateOfBirth?: string;
 };
 
 export type LoginBody = {

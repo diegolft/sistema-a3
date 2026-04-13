@@ -1,96 +1,114 @@
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import {
+	createContext,
+	type ReactNode,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { toast } from "sonner";
-import { useLibrary } from "@/contexts/LibraryContext";
 import { requireContext } from "@/lib/context";
-import { readJsonArray, safeSetJson } from "@/lib/storage";
-
-const STORAGE_KEY = "sistema-a3-cart";
-
-export type CartLine = { gameId: string };
-
-function isCartLine(x: unknown): x is CartLine {
-	return (
-		typeof x === "object" &&
-		x !== null &&
-		"gameId" in x &&
-		typeof (x as CartLine).gameId === "string"
-	);
-}
-
-const readCart = () => readJsonArray(STORAGE_KEY, isCartLine);
-const writeCart = (lines: CartLine[]) => safeSetJson(STORAGE_KEY, lines);
+import { addCartItem, getActiveCart, removeCartItem } from "@/services/api/carts";
+import { checkout, paySale } from "@/services/api/sales";
+import type { Cart, CartItem, PaymentMethod } from "@/types/domain";
+import { useAuth } from "./AuthContext";
+import { useLibrary } from "./LibraryContext";
+import { useSales } from "./SalesContext";
 
 type CartContextValue = {
-	items: CartLine[];
+	cart: Cart | null;
+	items: CartItem[];
 	itemCount: number;
-	addToCart: (gameId: string) => void;
-	removeFromCart: (gameId: string) => void;
-	/** Recoloca um item sem toast (ex.: desfazer remoção). */
-	restoreCartItem: (gameId: string) => void;
-	clearCart: () => void;
-	finalizePurchase: () => void;
+	isLoading: boolean;
+	addToCart: (gameId: number) => Promise<void>;
+	removeFromCart: (gameId: number) => Promise<void>;
+	refreshCart: () => Promise<void>;
+	finalizePurchase: (method: PaymentMethod) => Promise<void>;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-	const { addOwned } = useLibrary();
-	const [items, setItems] = useState<CartLine[]>(() => readCart());
+	const { token, isAuthenticated } = useAuth();
+	const { refreshOwnedGames } = useLibrary();
+	const { refreshSales } = useSales();
+	const [cart, setCart] = useState<Cart | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const addToCart = useCallback((gameId: string) => {
-		setItems((prev) => {
-			if (prev.some((l) => l.gameId === gameId)) {
-				toast.message("Este jogo já está no carrinho.");
-				return prev;
+	const refreshCart = useCallback(async () => {
+		if (!token) {
+			setCart(null);
+			setIsLoading(false);
+			return;
+		}
+		setIsLoading(true);
+		try {
+			const nextCart = await getActiveCart(token);
+			setCart(nextCart);
+		} finally {
+			setIsLoading(false);
+		}
+	}, [token]);
+
+	useEffect(() => {
+		if (!isAuthenticated || !token) {
+			setCart(null);
+			setIsLoading(false);
+			return;
+		}
+		void refreshCart();
+	}, [isAuthenticated, refreshCart, token]);
+
+	const addToCartHandler = useCallback(
+		async (gameId: number) => {
+			if (!token) {
+				throw new Error("Sessao necessaria para adicionar ao carrinho.");
 			}
-			const next = [...prev, { gameId }];
-			writeCart(next);
+			await addCartItem(gameId, token);
+			await refreshCart();
 			toast.success("Adicionado ao carrinho!");
-			return next;
-		});
-	}, []);
+		},
+		[refreshCart, token],
+	);
 
-	const removeFromCart = useCallback((gameId: string) => {
-		setItems((prev) => {
-			const next = prev.filter((l) => l.gameId !== gameId);
-			writeCart(next);
-			return next;
-		});
-	}, []);
+	const removeFromCartHandler = useCallback(
+		async (gameId: number) => {
+			if (!token) {
+				throw new Error("Sessao necessaria para alterar o carrinho.");
+			}
+			await removeCartItem(gameId, token);
+			await refreshCart();
+		},
+		[refreshCart, token],
+	);
 
-	const restoreCartItem = useCallback((gameId: string) => {
-		setItems((prev) => {
-			if (prev.some((l) => l.gameId === gameId)) return prev;
-			const next = [...prev, { gameId }];
-			writeCart(next);
-			return next;
-		});
-	}, []);
+	const finalizePurchase = useCallback(
+		async (method: PaymentMethod) => {
+			if (!token) {
+				throw new Error("Sessao necessaria para finalizar a compra.");
+			}
+			await checkout(token);
+			await paySale(method, token);
+			await Promise.all([refreshCart(), refreshOwnedGames(), refreshSales()]);
+			toast.success("Compra concluida com sucesso!");
+		},
+		[refreshCart, refreshOwnedGames, refreshSales, token],
+	);
 
-	const clearCart = useCallback(() => {
-		setItems([]);
-		writeCart([]);
-	}, []);
-
-	const finalizePurchase = useCallback(() => {
-		if (items.length === 0) return;
-		const ids = items.map((l) => l.gameId);
-		addOwned(ids);
-		clearCart();
-		toast.success("Compra finalizada! Jogos na sua biblioteca.");
-	}, [items, addOwned, clearCart]);
-
+	const items = cart?.items ?? [];
 	const value = useMemo<CartContextValue>(
 		() => ({
+			cart,
 			items,
 			itemCount: items.length,
-			addToCart,
-			removeFromCart,
-			restoreCartItem,
-			clearCart,
+			isLoading,
+			addToCart: addToCartHandler,
+			removeFromCart: removeFromCartHandler,
+			refreshCart,
 			finalizePurchase,
 		}),
-		[items, addToCart, removeFromCart, restoreCartItem, clearCart, finalizePurchase],
+		[cart, items, isLoading, addToCartHandler, removeFromCartHandler, refreshCart, finalizePurchase],
 	);
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
