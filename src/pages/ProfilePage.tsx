@@ -191,7 +191,7 @@ export function ProfilePage() {
 			>
 				<h2 className="text-base font-bold text-neutral-100">Historico de compras</h2>
 				<p className="mt-1 text-[13px] text-neutral-400">
-					As compras abaixo sao carregadas a partir do endpoint real de vendas.
+					Confira seus jogos disponíveis.
 				</p>
 				<div className="mt-4 space-y-3">
 					{salesLoading ? (

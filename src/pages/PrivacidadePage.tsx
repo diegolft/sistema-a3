@@ -12,16 +12,15 @@ export function PrivacidadePage() {
 			</h1>
 			<div className={card}>
 				<p className={`text-[14px] leading-relaxed ${body}`}>
-					Descreva aqui como você coleta, usa e armazena dados pessoais (LGPD/GDPR), bases legais, direitos
-					do titular e contato do encarregado. Este conteúdo é placeholder para o projeto demonstrativo Game
-					Store.
+					Este projeto demonstrativo de Game Store coleta apenas dados básicos fornecidos voluntariamente pelo usuário (como nome, e-mail e informações de login) para fins de autenticação e simulação de funcionalidades. Os dados são utilizados exclusivamente dentro do ambiente acadêmico, não sendo compartilhados com terceiros.
+
+					Por se tratar de um projeto acadêmico, não há um encarregado formal (DPO). Para dúvidas, entre em contato com os desenvolvedores responsáveis pelo projeto.
 				</p>
 				<h2 id="cookies" className={h2}>
 					Cookies e dados
 				</h2>
 				<p className={`text-[14px] leading-relaxed ${body}`}>
-					Explique quais cookies são utilizados (essenciais, analíticos, marketing), como o usuário pode
-					gerenciar preferências e por quanto tempo os dados são retidos.
+					Este projeto demonstrativo de Game Store utiliza cookies de forma limitada, apenas para simulação de funcionalidades.
 				</p>
 			</div>
 		</div>

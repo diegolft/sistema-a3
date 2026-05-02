@@ -70,7 +70,7 @@ export function AdminReportsPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(320px,0.8fr)_minmax(0,1.2fr)]">
-			<AdminSection title="Filtros" description="Consome /relatorios/jogos-mais-vendidos?top=&empresa=.">
+			<AdminSection title="Filtros" description="Selecione os filtros.">
 				<div className="space-y-4">
 					<label className="block text-[13px] font-semibold text-neutral-200">
 						Top

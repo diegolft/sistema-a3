@@ -104,7 +104,7 @@ export function GamesPage() {
 				<p className="mt-1.5 text-[14px] text-neutral-400">
 					{isAuthenticated
 						? "Explore o catalogo completo conectado a API."
-						: "Visitantes veem a vitrine publica. Entre para abrir detalhes e comprar."}
+						: "Acesse os jogos disponíveis."}
 				</p>
 			</header>
 

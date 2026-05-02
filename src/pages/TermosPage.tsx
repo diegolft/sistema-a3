@@ -9,12 +9,10 @@ export function TermosPage() {
 			<h1 className={`mb-5 text-2xl font-bold tracking-tight md:text-3xl ${title}`}>Termos de uso</h1>
 			<div className={card}>
 				<p className={`text-[14px] leading-relaxed ${body}`}>
-					Este é um ambiente de demonstração. Substitua este texto pelos termos reais do seu serviço: uso
-					do site, restrições de idade, licenças de software, limitação de responsabilidade e lei aplicável.
+					Este projeto demonstrativo de Game Store é destinado exclusivamente para fins educacionais e não possui caráter comercial.
 				</p>
 				<p className={`mt-3 text-[14px] leading-relaxed ${body}`}>
-					Em produção, recomenda-se revisão jurídica e data de última atualização visível no topo ou rodapé
-					desta página.
+					Por se tratar de um projeto acadêmico, não há garantias de segurança, disponibilidade ou proteção de dados em nível de produção.
 				</p>
 			</div>
 		</div>

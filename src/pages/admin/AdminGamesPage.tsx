@@ -178,7 +178,7 @@ export function AdminGamesPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)]">
-			<AdminSection title="Catalogo" description="Consome GET, POST, PUT e DELETE em /jogos.">
+			<AdminSection title="Catalogo" description="Jogos cadastrados.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando jogos...</p>

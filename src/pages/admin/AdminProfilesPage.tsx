@@ -81,7 +81,7 @@ export function AdminProfilesPage() {
 				)}
 			</AdminSection>
 
-			<AdminSection title="Novo perfil" description="Consome POST /profiles.">
+			<AdminSection title="Novo perfil" description="Perfis cadastrados.">
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<label className="block text-[13px] font-semibold text-neutral-200">
 						Nome do perfil

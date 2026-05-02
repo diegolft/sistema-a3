@@ -20,7 +20,7 @@ const ITEMS = [
 
 		q: "Quais formas de pagamento são aceitas?",
 
-		a: "Nesta demonstração, o fluxo de pagamento é simulado. Em produção, costuma-se integrar cartão, Pix e carteiras digitais conforme o gateway escolhido.",
+		a: "Você pode pagar com PIX, cartão de crédito ou boleto bancário",
 
 	},
 
@@ -28,7 +28,7 @@ const ITEMS = [
 
 		q: "Posso pedir reembolso?",
 
-		a: "Políticas de reembolso dependem do tipo de produto e da legislação local. Em ambiente real, descreva prazos e condições aqui e mantenha o canal de suporte visível.",
+		a: "Sim, é possível solicitar reembolso dentro de 7 dias.",
 
 	},
 
@@ -87,9 +87,7 @@ export function FaqPage() {
 
 				<p className={`mx-auto mt-2 max-w-md text-[14px] leading-relaxed ${muted}`}>
 
-					Respostas objetivas sobre compras, entrega digital e conta. Em dúvida, fale com o suporte pelo
-
-					footer do site.
+					Respostas objetivas sobre compras, entrega digital e conta. Em dúvida, fale com o suporte na parte infeiro do site.
 
 				</p>
 
