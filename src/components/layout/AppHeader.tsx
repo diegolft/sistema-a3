@@ -82,7 +82,7 @@ export function AppHeader() {
 					) : null}
 					{isAdmin ? (
 						<NavLink
-							to="/admin/usuarios"
+							to="/admin"
 							className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
 						>
 							Admin
@@ -110,7 +110,7 @@ export function AppHeader() {
 						<>
 							{isAdmin ? (
 								<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
-									<Link to="/admin/usuarios" className={iconButton} aria-label="Painel admin">
+									<Link to="/admin" className={iconButton} aria-label="Painel admin">
 										<BarChart3 className="h-5 w-5" strokeWidth={1.75} />
 									</Link>
 								</motion.div>
@@ -217,7 +217,7 @@ export function AppHeader() {
 						) : null}
 						{isAdmin ? (
 							<NavLink
-								to="/admin/usuarios"
+								to="/admin"
 								onClick={closeMobileNav}
 								className={({ isActive }) =>
 									`rounded-lg px-3 py-2.5 ${navBase} ${isActive ? navActive : ""}`
