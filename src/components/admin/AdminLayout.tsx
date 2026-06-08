@@ -3,6 +3,12 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const LINKS = [
 	{
+		to: "/admin/relatorios",
+		label: "Relatorios",
+		description: "Mais vendidos e filtros",
+		Icon: BarChart3,
+	},
+	{
 		to: "/admin/usuarios",
 		label: "Usuarios",
 		description: "Consulta e edicao de contas",
@@ -31,12 +37,6 @@ const LINKS = [
 		label: "Categorias",
 		description: "Consulta das categorias existentes",
 		Icon: FolderKanban,
-	},
-	{
-		to: "/admin/relatorios",
-		label: "Relatorios",
-		description: "Mais vendidos e filtros",
-		Icon: BarChart3,
 	},
 ] as const;
 
