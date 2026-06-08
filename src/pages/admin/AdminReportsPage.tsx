@@ -4,6 +4,7 @@ import {
 	BarChart,
 	CartesianGrid,
 	Cell,
+	Legend,
 	Pie,
 	PieChart,
 	ResponsiveContainer,
@@ -157,11 +158,7 @@ export function AdminReportsPage() {
 									nameKey="name"
 									cx="50%"
 									cy="50%"
-									outerRadius={120}
-									label={({ name, percent }: { name: string; percent: number }) =>
-										`${name} ${(percent * 100).toFixed(0)}%`
-									}
-									labelLine={false}
+									outerRadius={90}
 								>
 									{empresaData.map((_, index) => (
 										<Cell key={index} fill={COLORS[index % COLORS.length]} />
@@ -170,6 +167,11 @@ export function AdminReportsPage() {
 								<Tooltip
 									{...TOOLTIP_STYLE}
 									formatter={(value: number) => [value, "Vendas"]}
+								/>
+								<Legend
+									formatter={(value) => (
+										<span style={{ color: "#a3a3a3", fontSize: 13 }}>{value}</span>
+									)}
 								/>
 							</PieChart>
 						</ResponsiveContainer>
@@ -180,22 +182,24 @@ export function AdminReportsPage() {
 						description="Todos os jogos ordenados por volume de vendas."
 					>
 						<div className="overflow-x-auto">
-							<ResponsiveContainer
-								width="100%"
-								height={Math.max(300, allSales.length * 36)}
-							>
-								<BarChart
-									data={allSales}
-									layout="vertical"
-									margin={{ top: 10, right: 40, left: 120, bottom: 10 }}
+							<div style={{ minWidth: 480 }}>
+								<ResponsiveContainer
+									width="100%"
+									height={Math.max(300, allSales.length * 36)}
 								>
-									<CartesianGrid {...gridProps} horizontal={false} />
-									<XAxis type="number" {...axisProps} />
-									<YAxis type="category" dataKey="nome" {...axisProps} width={120} />
-									<Tooltip {...TOOLTIP_STYLE} />
-									<Bar dataKey="total" name="Vendas" fill="#ff9a3c" radius={[0, 6, 6, 0]} />
-								</BarChart>
-							</ResponsiveContainer>
+									<BarChart
+										data={allSales}
+										layout="vertical"
+										margin={{ top: 10, right: 40, left: 120, bottom: 10 }}
+									>
+										<CartesianGrid {...gridProps} horizontal={false} />
+										<XAxis type="number" {...axisProps} />
+										<YAxis type="category" dataKey="nome" {...axisProps} width={120} />
+										<Tooltip {...TOOLTIP_STYLE} />
+										<Bar dataKey="total" name="Vendas" fill="#ff9a3c" radius={[0, 6, 6, 0]} />
+									</BarChart>
+								</ResponsiveContainer>
+							</div>
 						</div>
 					</AdminSection>
 
