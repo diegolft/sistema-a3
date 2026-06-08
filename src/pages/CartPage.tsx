@@ -181,30 +181,44 @@ export function CartPage() {
 						<div className="mt-5 space-y-3">
 							<p className="text-[13px] font-semibold text-neutral-200">Metodo de pagamento</p>
 							{PAYMENT_METHODS.map(({ value, label, description, Icon }) => (
-								<label
-									key={value}
-									className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3 transition ${
-										paymentMethod === value
-											? "border-[var(--color-gs-accent)]/45 bg-[var(--color-gs-accent)]/8"
-											: "border-white/10 bg-gs-raised"
-									}`}
-								>
+								<div key={value}>
 									<input
 										type="radio"
+										id={`payment-${value}`}
 										name="payment-method"
 										value={value}
 										checked={paymentMethod === value}
 										onChange={() => setPaymentMethod(value)}
-										className="mt-1"
+										className="sr-only"
 									/>
-									<Icon className="mt-0.5 h-4 w-4 text-[var(--color-gs-accent)]" strokeWidth={1.8} />
-									<span className="min-w-0">
-										<span className="block text-[13px] font-semibold text-neutral-100">{label}</span>
-										<span className="mt-0.5 block text-[12px] leading-relaxed text-neutral-400">
-											{description}
+									<label
+										htmlFor={`payment-${value}`}
+										className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3 transition ${
+											paymentMethod === value
+												? "border-[var(--color-gs-accent)] bg-[var(--color-gs-accent)]/10"
+												: "border-white/10 bg-gs-raised hover:border-white/20"
+										}`}
+									>
+										<span
+											className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition ${
+												paymentMethod === value
+													? "border-[var(--color-gs-accent)]"
+													: "border-neutral-600"
+											}`}
+										>
+											{paymentMethod === value && (
+												<span className="h-2 w-2 rounded-full bg-[var(--color-gs-accent)]" />
+											)}
 										</span>
-									</span>
-								</label>
+										<Icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-gs-accent)]" strokeWidth={1.8} />
+										<span className="min-w-0">
+											<span className="block text-[13px] font-semibold text-neutral-100">{label}</span>
+											<span className="mt-0.5 block text-[12px] leading-relaxed text-neutral-400">
+												{description}
+											</span>
+										</span>
+									</label>
+								</div>
 							))}
 						</div>
 
