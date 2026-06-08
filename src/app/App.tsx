@@ -22,6 +22,7 @@ import { PrivacidadePage } from "@/pages/PrivacidadePage";
 import { TermosPage } from "@/pages/TermosPage";
 import { LibraryPage } from "@/pages/LibraryPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+import { SalesHistoryPage } from "@/pages/SalesHistoryPage";
 import { WishlistPage } from "@/pages/WishlistPage";
 import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
 import { AdminCompaniesPage } from "@/pages/admin/AdminCompaniesPage";
@@ -63,6 +64,7 @@ export function App() {
 										<Route path="lista-desejos" element={<WishlistPage />} />
 										<Route path="biblioteca" element={<LibraryPage />} />
 										<Route path="perfil" element={<ProfilePage />} />
+									<Route path="historico" element={<SalesHistoryPage />} />
 									</Route>
 
 									<Route element={<RequireRole role="Administrador" />}>

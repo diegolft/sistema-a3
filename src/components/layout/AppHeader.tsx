@@ -72,6 +72,14 @@ export function AppHeader() {
 							Biblioteca
 						</NavLink>
 					) : null}
+					{isAuthenticated ? (
+						<NavLink
+							to="/historico"
+							className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
+						>
+							Histórico
+						</NavLink>
+					) : null}
 					{isAdmin ? (
 						<NavLink
 							to="/admin/usuarios"
@@ -194,6 +202,17 @@ export function AppHeader() {
 								}
 							>
 								Biblioteca
+							</NavLink>
+						) : null}
+						{isAuthenticated ? (
+							<NavLink
+								to="/historico"
+								onClick={closeMobileNav}
+								className={({ isActive }) =>
+									`rounded-lg px-3 py-2.5 ${navBase} ${isActive ? navActive : ""}`
+								}
+							>
+								Histórico
 							</NavLink>
 						) : null}
 						{isAdmin ? (
