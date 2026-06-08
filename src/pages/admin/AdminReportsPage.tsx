@@ -20,7 +20,7 @@ import { listGames } from "@/services/api/games";
 import { getMostSoldGamesReport } from "@/services/api/reports";
 import type { GameSummary, MostSoldGameReportItem } from "@/types/domain";
 
-const COLORS = ["#ff7a00", "#ff9a3c", "#e05a00", "#ffa64d", "#cc4800", "#ffb366", "#b33d00", "#ffc280"];
+const COLORS = ["#ff7a00", "#3b82f6", "#22c55e", "#a855f7", "#ef4444", "#06b6d4", "#eab308", "#ec4899"];
 
 const TOOLTIP_STYLE = {
 	contentStyle: {
