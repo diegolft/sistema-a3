@@ -1,20 +1,65 @@
 import { useEffect, useState } from "react";
+import {
+	Bar,
+	BarChart,
+	CartesianGrid,
+	Cell,
+	Pie,
+	PieChart,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from "recharts";
 import { AdminSection } from "@/components/admin/AdminSection";
 import { adminButtonClass, adminInputClass } from "@/components/admin/styles";
 import { useAuth } from "@/contexts/AuthContext";
 import { getFormErrorMessage } from "@/lib/formErrors";
-import { listCompanies } from "@/services/api/companies";
+import { listGames } from "@/services/api/games";
 import { getMostSoldGamesReport } from "@/services/api/reports";
-import type { Company, MostSoldGameReportItem } from "@/types/domain";
+import type { GameSummary, MostSoldGameReportItem } from "@/types/domain";
+
+const COLORS = ["#ff7a00", "#ff9a3c", "#e05a00", "#ffa64d", "#cc4800", "#ffb366", "#b33d00", "#ffc280"];
+
+const TOOLTIP_STYLE = {
+	contentStyle: {
+		backgroundColor: "#1a1a1a",
+		border: "1px solid rgba(255,255,255,0.1)",
+		borderRadius: "12px",
+	},
+	labelStyle: { color: "#f5f5f5" },
+	itemStyle: { color: "#a3a3a3" },
+};
+
+function buildEmpresaData(sales: MostSoldGameReportItem[]) {
+	const acc: Record<string, number> = {};
+	for (const item of sales) {
+		acc[item.empresa] = (acc[item.empresa] ?? 0) + item.total;
+	}
+	return Object.entries(acc)
+		.map(([name, value]) => ({ name, value }))
+		.sort((a, b) => b.value - a.value);
+}
+
+function buildCategoriaData(sales: MostSoldGameReportItem[], games: GameSummary[]) {
+	const catByName = new Map(games.map((g) => [g.nome, g.categoriaNome]));
+	const acc: Record<string, number> = {};
+	for (const item of sales) {
+		const cat = catByName.get(item.nome) ?? "Outros";
+		acc[cat] = (acc[cat] ?? 0) + item.total;
+	}
+	return Object.entries(acc)
+		.map(([name, total]) => ({ name, total }))
+		.sort((a, b) => b.total - a.total);
+}
 
 export function AdminReportsPage() {
 	const { token } = useAuth();
-	const [companies, setCompanies] = useState<Company[]>([]);
-	const [top, setTop] = useState("10");
-	const [empresa, setEmpresa] = useState("");
-	const [results, setResults] = useState<MostSoldGameReportItem[]>([]);
+	const [topN, setTopN] = useState(10);
+	const [topInput, setTopInput] = useState("10");
+	const [allSales, setAllSales] = useState<MostSoldGameReportItem[]>([]);
+	const [gamesData, setGamesData] = useState<GameSummary[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [running, setRunning] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -22,21 +67,21 @@ export function AdminReportsPage() {
 		const authToken = token;
 		let cancelled = false;
 
-		async function loadInitial() {
+		async function load() {
 			setLoading(true);
 			setError(null);
 			try {
-				const [nextCompanies, nextResults] = await Promise.all([
-					listCompanies(authToken),
-					getMostSoldGamesReport(authToken, { top: 10 }),
+				const [nextSales, nextGames] = await Promise.all([
+					getMostSoldGamesReport(authToken, { top: 50 }),
+					listGames(authToken),
 				]);
 				if (!cancelled) {
-					setCompanies(nextCompanies);
-					setResults(nextResults);
+					setAllSales(nextSales);
+					setGamesData(nextGames);
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar os relatorios."));
+					setError(getFormErrorMessage(err, "Não foi possível carregar os relatórios."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -45,102 +90,134 @@ export function AdminReportsPage() {
 			}
 		}
 
-		void loadInitial();
+		void load();
 		return () => {
 			cancelled = true;
 		};
 	}, [token]);
 
-	async function runReport() {
-		if (!token) return;
-		setRunning(true);
-		setError(null);
-		try {
-			const report = await getMostSoldGamesReport(token, {
-				top: Number(top),
-				empresa: empresa ? Number(empresa) : undefined,
-			});
-			setResults(report);
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel executar o relatorio."));
-		} finally {
-			setRunning(false);
-		}
-	}
+	const topSales = allSales.slice(0, topN);
+	const empresaData = buildEmpresaData(allSales);
+	const categoriaData = buildCategoriaData(allSales, gamesData);
+
+	const axisProps = { tick: { fill: "#a3a3a3", fontSize: 12 } };
+	const gridProps = { strokeDasharray: "3 3", stroke: "rgba(255,255,255,0.08)" };
 
 	return (
-		<div className="grid gap-6 xl:grid-cols-[minmax(320px,0.8fr)_minmax(0,1.2fr)]">
-			<AdminSection title="Filtros" description="Consome /relatorios/jogos-mais-vendidos?top=&empresa=.">
-				<div className="space-y-4">
-					<label className="block text-[13px] font-semibold text-neutral-200">
-						Top
-						<input
-							type="number"
-							min="1"
-							className={`${adminInputClass} mt-2`}
-							value={top}
-							onChange={(event) => setTop(event.target.value)}
-						/>
-					</label>
-					<label className="block text-[13px] font-semibold text-neutral-200">
-						Empresa (opcional)
-						<select
-							className={`${adminInputClass} mt-2`}
-							value={empresa}
-							onChange={(event) => setEmpresa(event.target.value)}
-						>
-							<option value="">Todas as empresas</option>
-							{companies.map((company) => (
-								<option key={company.id} value={company.id}>
-									{company.nome}
-								</option>
-							))}
-						</select>
-					</label>
-					<button
-						type="button"
-						className={adminButtonClass}
-						onClick={() => {
-							void runReport();
-						}}
-						disabled={running}
+		<div className="space-y-6">
+			{error ? <p className="text-[14px] text-amber-300">{error}</p> : null}
+			{loading ? (
+				<p className="text-[14px] text-neutral-400">Carregando relatórios...</p>
+			) : (
+				<>
+					<AdminSection
+						title="Top Jogos Mais Vendidos"
+						description="Os jogos com maior volume de vendas. Ajuste o Top N para filtrar."
 					>
-						{running ? "Consultando..." : "Executar relatorio"}
-					</button>
-				</div>
-			</AdminSection>
+						<div className="mb-4 flex items-center gap-3">
+							<label className="text-[13px] font-semibold text-neutral-200">
+								Top
+								<input
+									type="number"
+									min="1"
+									max="50"
+									className={`${adminInputClass} ml-2 w-20`}
+									value={topInput}
+									onChange={(e) => setTopInput(e.target.value)}
+								/>
+							</label>
+							<button
+								type="button"
+								className={adminButtonClass}
+								onClick={() => setTopN(Math.min(50, Math.max(1, Number(topInput))))}
+							>
+								Aplicar
+							</button>
+						</div>
+						<ResponsiveContainer width="100%" height={300}>
+							<BarChart data={topSales} margin={{ top: 10, right: 10, left: 0, bottom: 60 }}>
+								<CartesianGrid {...gridProps} />
+								<XAxis dataKey="nome" {...axisProps} angle={-35} textAnchor="end" interval={0} />
+								<YAxis {...axisProps} />
+								<Tooltip {...TOOLTIP_STYLE} />
+								<Bar dataKey="total" name="Vendas" fill="#ff7a00" radius={[6, 6, 0, 0]} />
+							</BarChart>
+						</ResponsiveContainer>
+					</AdminSection>
 
-			<AdminSection title="Jogos mais vendidos" description="Resultado consolidado pelo backend.">
-				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
-				{loading ? (
-					<p className="text-[14px] text-neutral-400">Carregando relatorio...</p>
-				) : results.length === 0 ? (
-					<p className="text-[14px] text-neutral-400">Nenhum resultado para os filtros atuais.</p>
-				) : (
-					<div className="overflow-x-auto">
-						<table className="min-w-full text-left text-[14px]">
-							<thead className="text-[12px] uppercase tracking-wide text-neutral-500">
-								<tr>
-									<th className="pb-3 pr-4">Posicao</th>
-									<th className="pb-3 pr-4">Jogo</th>
-									<th className="pb-3 pr-4">Empresa</th>
-									<th className="pb-3">Total</th>
-								</tr>
-							</thead>
-							<tbody className="divide-y divide-white/10">
-								{results.map((item, index) => (
-									<tr key={`${item.nome}-${index}`}>
-										<td className="py-3 pr-4 text-neutral-400">#{index + 1}</td>
-										<td className="py-3 pr-4 text-neutral-100">{item.nome}</td>
-										<td className="py-3 pr-4 text-neutral-400">{item.empresa}</td>
-										<td className="py-3 font-semibold text-[var(--color-gs-accent)]">{item.total}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				)}
-			</AdminSection>
+					<AdminSection
+						title="Vendas por Empresa"
+						description="Proporção de vendas entre as publishers cadastradas."
+					>
+						<ResponsiveContainer width="100%" height={320}>
+							<PieChart>
+								<Pie
+									data={empresaData}
+									dataKey="value"
+									nameKey="name"
+									cx="50%"
+									cy="50%"
+									outerRadius={120}
+									label={({ name, percent }: { name: string; percent: number }) =>
+										`${name} ${(percent * 100).toFixed(0)}%`
+									}
+									labelLine={false}
+								>
+									{empresaData.map((_, index) => (
+										<Cell key={index} fill={COLORS[index % COLORS.length]} />
+									))}
+								</Pie>
+								<Tooltip
+									{...TOOLTIP_STYLE}
+									formatter={(value: number) => [value, "Vendas"]}
+								/>
+							</PieChart>
+						</ResponsiveContainer>
+					</AdminSection>
+
+					<AdminSection
+						title="Ranking Geral"
+						description="Todos os jogos ordenados por volume de vendas."
+					>
+						<div className="overflow-x-auto">
+							<ResponsiveContainer
+								width="100%"
+								height={Math.max(300, allSales.length * 36)}
+							>
+								<BarChart
+									data={allSales}
+									layout="vertical"
+									margin={{ top: 10, right: 40, left: 120, bottom: 10 }}
+								>
+									<CartesianGrid {...gridProps} horizontal={false} />
+									<XAxis type="number" {...axisProps} />
+									<YAxis type="category" dataKey="nome" {...axisProps} width={120} />
+									<Tooltip {...TOOLTIP_STYLE} />
+									<Bar dataKey="total" name="Vendas" fill="#ff9a3c" radius={[0, 6, 6, 0]} />
+								</BarChart>
+							</ResponsiveContainer>
+						</div>
+					</AdminSection>
+
+					<AdminSection
+						title="Vendas por Categoria"
+						description="Volume de vendas agrupado por gênero de jogo."
+					>
+						<ResponsiveContainer width="100%" height={300}>
+							<BarChart
+								data={categoriaData}
+								margin={{ top: 10, right: 10, left: 0, bottom: 60 }}
+							>
+								<CartesianGrid {...gridProps} />
+								<XAxis dataKey="name" {...axisProps} angle={-35} textAnchor="end" interval={0} />
+								<YAxis {...axisProps} />
+								<Tooltip {...TOOLTIP_STYLE} />
+								<Bar dataKey="total" name="Vendas" fill="#e05a00" radius={[6, 6, 0, 0]} />
+							</BarChart>
+						</ResponsiveContainer>
+					</AdminSection>
+				</>
+			)}
 		</div>
 	);
 }
