@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import {
-	BarChart3,
 	Gamepad2,
 	Heart,
 	LogOut,
@@ -85,7 +84,7 @@ export function AppHeader() {
 							to="/admin"
 							className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}
 						>
-							Admin
+							Administrador
 						</NavLink>
 					) : null}
 				</nav>
@@ -108,13 +107,6 @@ export function AppHeader() {
 
 					{isAuthenticated ? (
 						<>
-							{isAdmin ? (
-								<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
-									<Link to="/admin" className={iconButton} aria-label="Painel admin">
-										<BarChart3 className="h-5 w-5" strokeWidth={1.75} />
-									</Link>
-								</motion.div>
-							) : null}
 							<motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.96 }}>
 								<Link to="/lista-desejos" className={iconButton} aria-label="Lista de desejos">
 									<Heart className="h-5 w-5" strokeWidth={1.75} />
@@ -223,7 +215,7 @@ export function AppHeader() {
 									`rounded-lg px-3 py-2.5 ${navBase} ${isActive ? navActive : ""}`
 								}
 							>
-								Admin
+								Administrador
 							</NavLink>
 						) : null}
 					</div>
