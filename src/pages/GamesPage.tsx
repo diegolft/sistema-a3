@@ -4,6 +4,7 @@ import { GameCard } from "@/components/games/GameCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { listCategories } from "@/services/api/categories";
+import { getMostSoldGamesReport } from "@/services/api/reports";
 import { listGames, listPublicGames } from "@/services/api/games";
 import type { ExhibitionGame, GameSummary } from "@/types/domain";
 
@@ -33,6 +34,9 @@ export function GamesPage() {
 	const [games, setGames] = useState<CatalogEntry[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [topSellerNames, setTopSellerNames] = useState<Set<string>>(new Set());
+	const [sort, setSort] = useState<"relevancia" | "preco-asc" | "preco-desc" | "nome-az">("relevancia");
+	const [retryCount, setRetryCount] = useState(0);
 	const deferredQuery = useDeferredValue(query);
 
 	useEffect(() => {
@@ -43,14 +47,16 @@ export function GamesPage() {
 			setError(null);
 			try {
 				if (isAuthenticated && token) {
-					const [nextGames, nextCategories] = await Promise.all([
+					const [nextGames, nextCategories, nextTopSales] = await Promise.all([
 						listGames(token),
 						listCategories(token),
+						getMostSoldGamesReport(token, { top: 3 }).catch(() => []),
 					]);
 
 					if (!cancelled) {
 						setGames(nextGames);
 						setCategories(["Todos", ...nextCategories.map((item) => item.nome)]);
+						setTopSellerNames(new Set(nextTopSales.slice(0, 3).map((s) => s.nome)));
 					}
 					return;
 				}
@@ -77,7 +83,7 @@ export function GamesPage() {
 		return () => {
 			cancelled = true;
 		};
-	}, [isAuthenticated, token]);
+	}, [isAuthenticated, token, retryCount]);
 
 	useEffect(() => {
 		if (!categories.includes(category)) {
@@ -96,6 +102,14 @@ export function GamesPage() {
 			return categoryOk && queryOk;
 		});
 	}, [category, deferredQuery, games]);
+
+	const sorted = useMemo(() => {
+		const arr = [...filtered];
+		if (sort === "preco-asc") arr.sort((a, b) => a.precoFinal - b.precoFinal);
+		else if (sort === "preco-desc") arr.sort((a, b) => b.precoFinal - a.precoFinal);
+		else if (sort === "nome-az") arr.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+		return arr;
+	}, [filtered, sort]);
 
 	return (
 		<div>
@@ -140,7 +154,43 @@ export function GamesPage() {
 				</div>
 			</div>
 
-			{error ? <p className="mb-5 text-[14px] text-amber-300">{error}</p> : null}
+			{error ? (
+			<div className="mb-5 flex flex-wrap items-center gap-3">
+				<p className="text-[14px] text-amber-300">{error}</p>
+				<button
+					type="button"
+					onClick={() => setRetryCount((c) => c + 1)}
+					className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-gs-raised px-3 py-1.5 text-[13px] font-medium text-neutral-300 transition hover:bg-neutral-700/60"
+				>
+					↺ Tentar novamente
+				</button>
+			</div>
+		) : null}
+
+		{!loading && sorted.length > 0 ? (
+			<div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+				<p className="text-[13px] text-neutral-400">
+					<span className="font-semibold text-neutral-100">{sorted.length}</span>{" "}
+					{sorted.length === 1 ? "jogo encontrado" : "jogos encontrados"}
+				</p>
+				<div className="flex items-center gap-2">
+					<label htmlFor="games-sort" className="text-[12px] text-neutral-500">
+						Ordenar:
+					</label>
+					<select
+						id="games-sort"
+						value={sort}
+						onChange={(e) => setSort(e.target.value as typeof sort)}
+						className="rounded-lg border border-white/10 bg-gs-raised px-3 py-1.5 text-[12px] text-neutral-100 outline-none focus:border-[var(--color-gs-accent)]/30"
+					>
+						<option value="relevancia">Relevância</option>
+						<option value="preco-asc">Menor preço</option>
+						<option value="preco-desc">Maior preço</option>
+						<option value="nome-az">A–Z</option>
+					</select>
+				</div>
+			</div>
+		) : null}
 
 			{loading ? (
 				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -152,11 +202,12 @@ export function GamesPage() {
 				<p className="py-12 text-center text-[14px] text-neutral-400">Nenhum jogo encontrado.</p>
 			) : (
 				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-					{filtered.map((game) => (
+					{sorted.map((game) => (
 						<li key={"id" in game ? game.id : `${game.nome}-${game.empresaNome}`}>
 							<GameCard
 								game={game}
 								mode={isAuthenticated ? "private" : "public"}
+								isTopSeller={topSellerNames.has(game.nome)}
 							/>
 						</li>
 					))}
