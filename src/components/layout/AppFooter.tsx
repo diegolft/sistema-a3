@@ -332,33 +332,35 @@ export function AppFooter() {
 
 				<div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-10 md:flex-row">
 
-					<div className="flex flex-wrap items-center justify-center gap-3">
+					<nav aria-label="Redes sociais">
+						<ul role="list" className="flex flex-wrap items-center justify-center gap-3">
 
-						{SOCIAL.map(({ href, label, Icon }) => (
+							{SOCIAL.map(({ href, label, Icon }) => (
 
-							<a
+								<li key={label}>
+									<a
 
-								key={label}
+										href={href}
 
-								href={href}
+										target="_blank"
 
-								target="_blank"
+										rel="noopener noreferrer"
 
-								rel="noopener noreferrer"
+										className={`flex h-11 w-11 items-center justify-center ${iconWrap}`}
 
-								className={`flex h-11 w-11 items-center justify-center ${iconWrap}`}
+										aria-label={label}
 
-								aria-label={label}
+									>
 
-							>
+										<Icon className="h-5 w-5" strokeWidth={1.75} />
 
-								<Icon className="h-5 w-5" strokeWidth={1.75} />
+									</a>
+								</li>
 
-							</a>
+							))}
 
-						))}
-
-					</div>
+						</ul>
+					</nav>
 
 					<p className={`text-center text-xs ${muted}`}>
 

@@ -97,15 +97,16 @@ export function FaqPage() {
 
 
 
-			<div className="space-y-2.5">
+			<ul role="list" className="space-y-2.5">
 
 				{ITEMS.map((item, i) => {
 
 					const isOpen = open === i;
+					const panelId = `faq-panel-${i}`;
 
 					return (
 
-						<div key={item.q} className={`overflow-hidden ${card}`}>
+						<li key={item.q} className={`overflow-hidden ${card}`}>
 
 							<button
 
@@ -116,6 +117,7 @@ export function FaqPage() {
 								className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-[14px] font-semibold text-neutral-100 transition hover:bg-white/[0.04]"
 
 								aria-expanded={isOpen}
+								aria-controls={panelId}
 
 							>
 
@@ -141,6 +143,10 @@ export function FaqPage() {
 
 									<motion.div
 
+										id={panelId}
+										role="region"
+										aria-label={item.q}
+
 										initial={{ height: 0, opacity: 0 }}
 
 										animate={{ height: "auto", opacity: 1 }}
@@ -165,13 +171,13 @@ export function FaqPage() {
 
 							</AnimatePresence>
 
-						</div>
+						</li>
 
 					);
 
 				})}
 
-			</div>
+			</ul>
 
 			<p className="mt-10 text-center text-[13px] text-neutral-500">
 				Atalho: <kbd className="rounded border border-white/15 bg-gs-raised px-1.5 py-0.5 font-mono text-[12px] text-neutral-400">Alt</kbd>{" "}

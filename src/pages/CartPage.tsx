@@ -132,9 +132,9 @@ export function CartPage() {
 				</div>
 			) : (
 				<div className="mx-auto mt-7 grid max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-					<div className="space-y-4">
+					<ul role="list" className="space-y-4">
 						{items.map(({ jogo }) => (
-							<motion.div
+							<motion.li
 								key={jogo.id}
 								layout
 								initial={{ opacity: 0, y: 8 }}
@@ -165,9 +165,9 @@ export function CartPage() {
 								>
 									<Trash2 className="h-5 w-5" strokeWidth={1.75} />
 								</button>
-							</motion.div>
+							</motion.li>
 						))}
-					</div>
+					</ul>
 
 					<div className="h-fit rounded-xl border border-white/10 bg-gs-surface p-5 shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
 						<div className="flex flex-wrap items-center justify-between gap-2">
@@ -178,37 +178,32 @@ export function CartPage() {
 							Os jogos comprados entram automaticamente na sua biblioteca apos o checkout.
 						</p>
 
-						<div className="mt-5 space-y-3">
+						<div role="radiogroup" aria-label="Metodo de pagamento" className="mt-5 space-y-3">
 							<p className="text-[13px] font-semibold text-neutral-200">Metodo de pagamento</p>
-							{PAYMENT_METHODS.map(({ value, label, description, Icon }) => (
-								<div key={value}>
-									<input
-										type="radio"
-										id={`payment-${value}`}
-										name="payment-method"
-										value={value}
-										checked={paymentMethod === value}
-										onChange={() => setPaymentMethod(value)}
-										className="sr-only"
-									/>
-									<label
-										htmlFor={`payment-${value}`}
+							{PAYMENT_METHODS.map(({ value, label, description, Icon }) => {
+								const selected = paymentMethod === value;
+								return (
+									<div
+										key={value}
+										role="radio"
+										aria-checked={selected}
+										tabIndex={0}
+										onClick={() => setPaymentMethod(value)}
+										onKeyDown={(e) => {
+											if (e.key === " " || e.key === "Enter") setPaymentMethod(value);
+										}}
 										className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3 transition ${
-											paymentMethod === value
+											selected
 												? "border-[var(--color-gs-accent)] bg-[var(--color-gs-accent)]/10"
 												: "border-white/10 bg-gs-raised hover:border-white/20"
 										}`}
 									>
 										<span
 											className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition ${
-												paymentMethod === value
-													? "border-[var(--color-gs-accent)]"
-													: "border-neutral-600"
+												selected ? "border-[var(--color-gs-accent)]" : "border-neutral-600"
 											}`}
 										>
-											{paymentMethod === value && (
-												<span className="h-2 w-2 rounded-full bg-[var(--color-gs-accent)]" />
-											)}
+											{selected && <span className="h-2 w-2 rounded-full bg-[var(--color-gs-accent)]" />}
 										</span>
 										<Icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-gs-accent)]" strokeWidth={1.8} />
 										<span className="min-w-0">
@@ -217,9 +212,9 @@ export function CartPage() {
 												{description}
 											</span>
 										</span>
-									</label>
-								</div>
-							))}
+									</div>
+								);
+							})}
 						</div>
 
 						<button

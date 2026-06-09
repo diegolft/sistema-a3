@@ -109,7 +109,7 @@ export function GamesPage() {
 			</header>
 
 			<div className="mb-7 md:mb-8">
-				<div className="relative">
+				<div role="search" className="relative">
 					<Search
 						className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400"
 						strokeWidth={1.75}
@@ -122,7 +122,7 @@ export function GamesPage() {
 						className="w-full rounded-full border border-white/10 bg-gs-raised py-3 pl-11 pr-5 text-[14px] text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-[var(--color-gs-accent)]/30 focus:bg-gs-surface focus:ring-2 focus:ring-[var(--color-gs-accent)]/20"
 					/>
 				</div>
-				<div className="mt-4 flex flex-wrap gap-2">
+				<div role="group" aria-label="Filtrar por categoria" className="mt-4 flex flex-wrap gap-2">
 					{categories.map((currentCategory) => (
 						<button
 							key={currentCategory}
@@ -143,23 +143,24 @@ export function GamesPage() {
 			{error ? <p className="mb-5 text-[14px] text-amber-300">{error}</p> : null}
 
 			{loading ? (
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{(["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"] as const).map((key) => (
-						<GameCardSkeleton key={key} />
+						<li key={key}><GameCardSkeleton /></li>
 					))}
-				</div>
+				</ul>
 			) : filtered.length === 0 ? (
 				<p className="py-12 text-center text-[14px] text-neutral-400">Nenhum jogo encontrado.</p>
 			) : (
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{filtered.map((game) => (
-						<GameCard
-							key={"id" in game ? game.id : `${game.nome}-${game.empresaNome}`}
-							game={game}
-							mode={isAuthenticated ? "private" : "public"}
-						/>
+						<li key={"id" in game ? game.id : `${game.nome}-${game.empresaNome}`}>
+							<GameCard
+								game={game}
+								mode={isAuthenticated ? "private" : "public"}
+							/>
+						</li>
 					))}
-				</div>
+				</ul>
 			)}
 		</div>
 	);

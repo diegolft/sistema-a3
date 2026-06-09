@@ -54,7 +54,7 @@ export function AppHeader() {
 					</span>
 				</Link>
 
-				<nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
+				<nav aria-label="Navegação principal" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
 					{isAuthenticated ? null : (
 						<NavLink to="/" end className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}>
 							Inicio
