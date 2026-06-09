@@ -15,6 +15,7 @@ import { ForgotPasswordPage } from "@/pages/auth/ForgotPasswordPage";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
 import { CartPage } from "@/pages/CartPage";
+import { PurchaseSuccessPage } from "@/pages/PurchaseSuccessPage";
 import { FaqPage } from "@/pages/FaqPage";
 import { GameDetailPage } from "@/pages/GameDetailPage";
 import { GamesPage } from "@/pages/GamesPage";
@@ -65,6 +66,7 @@ export function App() {
 										<Route path="biblioteca" element={<LibraryPage />} />
 										<Route path="perfil" element={<ProfilePage />} />
 									<Route path="historico" element={<SalesHistoryPage />} />
+						<Route path="compra-concluida" element={<PurchaseSuccessPage />} />
 									</Route>
 
 									<Route element={<RequireRole role="Administrador" />}>

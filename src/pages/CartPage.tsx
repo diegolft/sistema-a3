@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { CreditCard, QrCode, ReceiptText, ShoppingBag, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -37,16 +37,22 @@ const PAYMENT_METHODS: Array<{
 
 export function CartPage() {
 	const { cart, items, addToCart, removeFromCart, finalizePurchase, isLoading } = useCart();
+	const navigate = useNavigate();
 	const [confirmOpen, setConfirmOpen] = useState(false);
 	const [finalizing, setFinalizing] = useState(false);
 	const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
 	const total = cart?.total ?? 0;
 
 	async function handleConfirmPurchase() {
+		const purchasedItems = items.map(({ jogo }) => jogo.nome);
+		const purchasedTotal = total;
 		setFinalizing(true);
 		try {
 			await finalizePurchase(paymentMethod);
 			setConfirmOpen(false);
+			navigate("/compra-concluida", {
+				state: { items: purchasedItems, total: purchasedTotal },
+			});
 		} catch (error) {
 			toast.error(error instanceof Error ? error.message : "Nao foi possivel concluir a compra.");
 		} finally {
