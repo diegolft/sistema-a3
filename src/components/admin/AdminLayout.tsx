@@ -80,9 +80,9 @@ export function AdminLayout() {
 				))}
 			</nav>
 
-			<section>
+			<div>
 				<Outlet />
-			</section>
+			</div>
 		</div>
 	);
 }

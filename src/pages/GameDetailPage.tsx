@@ -299,30 +299,31 @@ export function GameDetailPage() {
 
 				<div>
 					<h2 className="text-lg font-bold text-neutral-100">Ultimas avaliacoes</h2>
-					<div className="mt-5 space-y-3">
-						{reviewAverage?.avaliacoes.length ? (
-							reviewAverage.avaliacoes.map((review) => (
-								<div
-									key={review.id}
-									className="rounded-2xl border border-white/10 bg-gs-surface p-4"
-								>
-									<div className="flex items-center justify-between gap-3">
-										<p className="text-[13px] font-semibold text-[var(--color-gs-accent)]">
-											Nota {review.nota}/5
+					{reviewAverage?.avaliacoes.length ? (
+						<ul role="list" className="mt-5 space-y-3">
+							{reviewAverage.avaliacoes.map((review) => (
+								<li key={review.id}>
+									<article className="rounded-2xl border border-white/10 bg-gs-surface p-4">
+										<div className="flex items-center justify-between gap-3">
+											<p className="text-[13px] font-semibold text-[var(--color-gs-accent)]">
+												Nota {review.nota}/5
+											</p>
+											<time className="text-[12px] text-neutral-500" dateTime={review.data}>
+												{formatDisplayDateTime(review.data)}
+											</time>
+										</div>
+										<p className="mt-2 text-[14px] leading-relaxed text-neutral-300">
+											{review.comentario || "Sem comentario informado."}
 										</p>
-										<p className="text-[12px] text-neutral-500">{formatDisplayDateTime(review.data)}</p>
-									</div>
-									<p className="mt-2 text-[14px] leading-relaxed text-neutral-300">
-										{review.comentario || "Sem comentario informado."}
-									</p>
-								</div>
-							))
-						) : (
-							<p className="rounded-2xl border border-white/10 bg-gs-surface p-4 text-[14px] text-neutral-400">
-								A comunidade ainda nao avaliou este jogo.
-							</p>
-						)}
-					</div>
+									</article>
+								</li>
+							))}
+						</ul>
+					) : (
+						<p className="mt-5 rounded-2xl border border-white/10 bg-gs-surface p-4 text-[14px] text-neutral-400">
+							A comunidade ainda nao avaliou este jogo.
+						</p>
+					)}
 				</div>
 			</section>
 		</div>

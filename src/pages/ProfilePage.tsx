@@ -204,25 +204,27 @@ export function ProfilePage() {
 							Voce ainda nao concluiu nenhuma compra.
 						</p>
 					) : (
-						sales.map((sale) => (
-							<div
-								key={sale.id}
-								className="rounded-2xl border border-white/10 bg-gs-raised p-4"
-							>
-								<div className="flex flex-wrap items-center justify-between gap-3">
-									<div>
-										<p className="text-[14px] font-semibold text-neutral-100">Venda #{sale.id}</p>
-										<p className="mt-1 text-[12px] text-neutral-400">
-											{sale.quantidade} {sale.quantidade === 1 ? "item" : "itens"} •{" "}
-											{formatDisplayDateTime(sale.data)}
+						<ul role="list" className="space-y-3">
+							{sales.map((sale) => (
+								<li
+									key={sale.id}
+									className="rounded-2xl border border-white/10 bg-gs-raised p-4"
+								>
+									<div className="flex flex-wrap items-center justify-between gap-3">
+										<div>
+											<p className="text-[14px] font-semibold text-neutral-100">Venda #{sale.id}</p>
+											<p className="mt-1 text-[12px] text-neutral-400">
+												{sale.quantidade} {sale.quantidade === 1 ? "item" : "itens"} •{" "}
+												{formatDisplayDateTime(sale.data)}
+											</p>
+										</div>
+										<p className="text-[15px] font-bold text-[var(--color-gs-accent)]">
+											{formatBRL(sale.valorTotal)}
 										</p>
 									</div>
-									<p className="text-[15px] font-bold text-[var(--color-gs-accent)]">
-										{formatBRL(sale.valorTotal)}
-									</p>
-								</div>
-							</div>
-						))
+								</li>
+							))}
+						</ul>
 					)}
 				</div>
 			</motion.section>
