@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Heart, Lock, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -10,13 +10,14 @@ import type { ExhibitionGame, GameSummary } from "@/types/domain";
 type Props = {
 	game: ExhibitionGame | GameSummary;
 	mode: "public" | "private";
+	isTopSeller?: boolean;
 };
 
 function hasId(game: ExhibitionGame | GameSummary): game is GameSummary {
 	return "id" in game;
 }
 
-export function GameCard({ game, mode }: Props) {
+export function GameCard({ game, mode, isTopSeller }: Props) {
 	const { addToCart } = useCart();
 	const { hasWishlist, toggleWishlist } = useWishlist();
 	const isPrivate = mode === "private" && hasId(game);
@@ -43,7 +44,7 @@ export function GameCard({ game, mode }: Props) {
 			layout
 			whileHover={{ scale: 1.02, y: -2 }}
 			transition={{ type: "spring", stiffness: 400, damping: 25 }}
-			className="group overflow-hidden rounded-xl bg-gs-surface shadow-[0_3px_18px_rgba(0,0,0,0.4)] ring-1 ring-white/[0.06]"
+			className={`group overflow-hidden rounded-xl bg-gs-surface shadow-[0_3px_18px_rgba(0,0,0,0.4)] ring-1 ${isTopSeller ? "ring-[var(--color-gs-accent)]/35" : "ring-white/[0.06]"}`}
 		>
 			<div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
 				{isPrivate ? (
@@ -64,6 +65,11 @@ export function GameCard({ game, mode }: Props) {
 				<span className="pointer-events-none absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
 					{game.categoriaNome}
 				</span>
+				{isTopSeller ? (
+					<span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-gradient-to-r from-[#ff7a00] to-[#e05a00] px-2.5 py-1 text-[10px] font-bold text-white shadow-md">
+						Mais vendido
+					</span>
+				) : null}
 			</div>
 			<div className="p-3.5">
 				{isPrivate ? (
