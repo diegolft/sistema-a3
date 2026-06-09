@@ -62,6 +62,7 @@ export function AdminReportsPage() {
 	const [gamesData, setGamesData] = useState<GameSummary[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [retryCount, setRetryCount] = useState(0);
 
 	useEffect(() => {
 		if (!token) return;
@@ -95,7 +96,7 @@ export function AdminReportsPage() {
 		return () => {
 			cancelled = true;
 		};
-	}, [token]);
+	}, [token, retryCount]);
 
 	const topSales = allSales.slice(0, topN);
 	const empresaData = buildEmpresaData(allSales);
@@ -106,7 +107,18 @@ export function AdminReportsPage() {
 
 	return (
 		<div className="space-y-6">
-			{error ? <p className="text-[14px] text-amber-300">{error}</p> : null}
+			{error ? (
+			<div className="flex flex-wrap items-center gap-3">
+				<p className="text-[14px] text-amber-300">{error}</p>
+				<button
+					type="button"
+					onClick={() => setRetryCount((c) => c + 1)}
+					className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-gs-raised px-3 py-1.5 text-[13px] font-medium text-neutral-300 transition hover:bg-neutral-700/60"
+				>
+					↺ Tentar novamente
+				</button>
+			</div>
+		) : null}
 			{loading ? (
 				<p className="text-[14px] text-neutral-400">Carregando relatórios...</p>
 			) : (
@@ -166,7 +178,7 @@ export function AdminReportsPage() {
 								</Pie>
 								<Tooltip
 									{...TOOLTIP_STYLE}
-									formatter={(value: number) => [value, "Vendas"]}
+									formatter={(value) => [Number(value), "Vendas"]}
 								/>
 								<Legend
 									formatter={(value) => (
