@@ -35,6 +35,51 @@ const PAYMENT_METHODS: Array<{
 	},
 ];
 
+function CheckoutStepper({ step }: { step: 1 | 2 | 3 }) {
+	const steps = [
+		{ n: 1 as const, label: "Carrinho" },
+		{ n: 2 as const, label: "Pagamento" },
+		{ n: 3 as const, label: "Confirmação" },
+	];
+	return (
+		<div className="mb-7 flex items-start">
+			{steps.map(({ n, label }, index) => {
+				const done = n < step;
+				const active = n === step;
+				return (
+					<div key={label} className="flex flex-1 items-center">
+						<div className="flex shrink-0 flex-col items-center gap-1">
+							<div
+								className={`flex h-8 w-8 items-center justify-center rounded-full text-[12px] font-bold transition ${
+									done || active
+										? "bg-[var(--color-gs-accent)] text-white"
+										: "border-2 border-white/10 bg-gs-raised text-neutral-500"
+								} ${active ? "ring-2 ring-[var(--color-gs-accent)]/25 ring-offset-2 ring-offset-[#0a0a0a]" : ""}`}
+							>
+								{done ? "✓" : n}
+							</div>
+							<span
+								className={`whitespace-nowrap text-[10px] font-medium ${
+									done || active ? "text-[var(--color-gs-accent)]" : "text-neutral-500"
+								}`}
+							>
+								{label}
+							</span>
+						</div>
+						{index < 2 && (
+							<div
+								className={`mb-5 mx-2 h-[2px] flex-1 transition ${
+									done ? "bg-[var(--color-gs-accent)]" : "bg-white/10"
+								}`}
+							/>
+						)}
+					</div>
+				);
+			})}
+		</div>
+	);
+}
+
 export function CartPage() {
 	const { cart, items, addToCart, removeFromCart, finalizePurchase, isLoading } = useCart();
 	const navigate = useNavigate();
@@ -137,102 +182,105 @@ export function CartPage() {
 					</Link>
 				</div>
 			) : (
-				<div className="mx-auto mt-7 grid max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-					<ul role="list" className="space-y-4">
-						{items.map(({ jogo }) => (
-							<motion.li
-								key={jogo.id}
-								layout
-								initial={{ opacity: 0, y: 8 }}
-								animate={{ opacity: 1, y: 0 }}
-								className="flex items-center gap-3 rounded-xl border border-white/10 bg-gs-surface p-3.5 shadow-[0_2px_12px_rgba(0,0,0,0.3)]"
-							>
-								<img
-									src={jogo.imageUrl}
-									alt={jogo.nome}
-									className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
-								/>
-								<div className="min-w-0 flex-1">
-									<p className="text-[15px] font-semibold text-neutral-100">{jogo.nome}</p>
-									<p className="mt-0.5 text-[13px] text-neutral-400">
-										{jogo.empresaNome} • {jogo.categoriaNome}
-									</p>
-									<p className="mt-1 text-[14px] font-semibold text-[var(--color-gs-accent)]">
-										{formatBRL(jogo.precoFinal)}
-									</p>
-								</div>
-								<button
-									type="button"
-									onClick={() => {
-										void handleRemoveFromCart(jogo.id, jogo.nome);
-									}}
-									className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-500 transition hover:bg-red-950/50 hover:text-red-400"
-									aria-label={`Remover ${jogo.nome} do carrinho`}
+				<>
+					<CheckoutStepper step={confirmOpen ? 3 : 2} />
+					<div className="mx-auto mt-7 grid max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+						<ul role="list" className="space-y-4">
+							{items.map(({ jogo }) => (
+								<motion.li
+									key={jogo.id}
+									layout
+									initial={{ opacity: 0, y: 8 }}
+									animate={{ opacity: 1, y: 0 }}
+									className="flex items-center gap-3 rounded-xl border border-white/10 bg-gs-surface p-3.5 shadow-[0_2px_12px_rgba(0,0,0,0.3)]"
 								>
-									<Trash2 className="h-5 w-5" strokeWidth={1.75} />
-								</button>
-							</motion.li>
-						))}
-					</ul>
-
-					<div className="h-fit rounded-xl border border-white/10 bg-gs-surface p-5 shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
-						<div className="flex flex-wrap items-center justify-between gap-2">
-							<span className="text-[14px] text-neutral-400">Total</span>
-							<span className="text-xl font-bold text-neutral-100">{formatBRL(total)}</span>
-						</div>
-						<p className="mt-2 text-[12px] text-neutral-500">
-							Os jogos comprados entram automaticamente na sua biblioteca apos o checkout.
-						</p>
-
-						<div role="radiogroup" aria-label="Metodo de pagamento" className="mt-5 space-y-3">
-							<p className="text-[13px] font-semibold text-neutral-200">Metodo de pagamento</p>
-							{PAYMENT_METHODS.map(({ value, label, description, Icon }) => {
-								const selected = paymentMethod === value;
-								return (
-									<div
-										key={value}
-										role="radio"
-										aria-checked={selected}
-										tabIndex={0}
-										onClick={() => setPaymentMethod(value)}
-										onKeyDown={(e) => {
-											if (e.key === " " || e.key === "Enter") setPaymentMethod(value);
+									<img
+										src={jogo.imageUrl}
+										alt={jogo.nome}
+										className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
+									/>
+									<div className="min-w-0 flex-1">
+										<p className="text-[15px] font-semibold text-neutral-100">{jogo.nome}</p>
+										<p className="mt-0.5 text-[13px] text-neutral-400">
+											{jogo.empresaNome} • {jogo.categoriaNome}
+										</p>
+										<p className="mt-1 text-[14px] font-semibold text-[var(--color-gs-accent)]">
+											{formatBRL(jogo.precoFinal)}
+										</p>
+									</div>
+									<button
+										type="button"
+										onClick={() => {
+											void handleRemoveFromCart(jogo.id, jogo.nome);
 										}}
-										className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3 transition ${
-											selected
-												? "border-[var(--color-gs-accent)] bg-[var(--color-gs-accent)]/10"
-												: "border-white/10 bg-gs-raised hover:border-white/20"
-										}`}
+										className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-500 transition hover:bg-red-950/50 hover:text-red-400"
+										aria-label={`Remover ${jogo.nome} do carrinho`}
 									>
-										<span
-											className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition ${
-												selected ? "border-[var(--color-gs-accent)]" : "border-neutral-600"
+										<Trash2 className="h-5 w-5" strokeWidth={1.75} />
+									</button>
+								</motion.li>
+							))}
+						</ul>
+
+						<div className="h-fit rounded-xl border border-white/10 bg-gs-surface p-5 shadow-[0_2px_12px_rgba(0,0,0,0.3)]">
+							<div className="flex flex-wrap items-center justify-between gap-2">
+								<span className="text-[14px] text-neutral-400">Total</span>
+								<span className="text-xl font-bold text-neutral-100">{formatBRL(total)}</span>
+							</div>
+							<p className="mt-2 text-[12px] text-neutral-500">
+								Os jogos comprados entram automaticamente na sua biblioteca apos o checkout.
+							</p>
+
+							<div role="radiogroup" aria-label="Metodo de pagamento" className="mt-5 space-y-3">
+								<p className="text-[13px] font-semibold text-neutral-200">Metodo de pagamento</p>
+								{PAYMENT_METHODS.map(({ value, label, description, Icon }) => {
+									const selected = paymentMethod === value;
+									return (
+										<div
+											key={value}
+											role="radio"
+											aria-checked={selected}
+											tabIndex={0}
+											onClick={() => setPaymentMethod(value)}
+											onKeyDown={(e) => {
+												if (e.key === " " || e.key === "Enter") setPaymentMethod(value);
+											}}
+											className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-3 transition ${
+												selected
+													? "border-[var(--color-gs-accent)] bg-[var(--color-gs-accent)]/10"
+													: "border-white/10 bg-gs-raised hover:border-white/20"
 											}`}
 										>
-											{selected && <span className="h-2 w-2 rounded-full bg-[var(--color-gs-accent)]" />}
-										</span>
-										<Icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-gs-accent)]" strokeWidth={1.8} />
-										<span className="min-w-0">
-											<span className="block text-[13px] font-semibold text-neutral-100">{label}</span>
-											<span className="mt-0.5 block text-[12px] leading-relaxed text-neutral-400">
-												{description}
+											<span
+												className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition ${
+													selected ? "border-[var(--color-gs-accent)]" : "border-neutral-600"
+												}`}
+											>
+												{selected && <span className="h-2 w-2 rounded-full bg-[var(--color-gs-accent)]" />}
 											</span>
-										</span>
-									</div>
-								);
-							})}
-						</div>
+											<Icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-gs-accent)]" strokeWidth={1.8} />
+											<span className="min-w-0">
+												<span className="block text-[13px] font-semibold text-neutral-100">{label}</span>
+												<span className="mt-0.5 block text-[12px] leading-relaxed text-neutral-400">
+													{description}
+												</span>
+											</span>
+										</div>
+									);
+								})}
+							</div>
 
-						<button
-							type="button"
-							onClick={() => setConfirmOpen(true)}
-							disabled={finalizing}
-							className="mt-5 w-full rounded-full bg-[var(--color-gs-accent)] py-3.5 text-[14px] font-semibold text-white shadow-[0_4px_18px_rgba(255,140,51,0.32)] transition hover:bg-[var(--color-gs-accent-hover)] disabled:pointer-events-none disabled:opacity-60"
-						>
-							Finalizar Compra
-						</button>
+							<button
+								type="button"
+								onClick={() => setConfirmOpen(true)}
+								disabled={finalizing}
+								className="mt-5 w-full rounded-full bg-[var(--color-gs-accent)] py-3.5 text-[14px] font-semibold text-white shadow-[0_4px_18px_rgba(255,140,51,0.32)] transition hover:bg-[var(--color-gs-accent-hover)] disabled:pointer-events-none disabled:opacity-60"
+							>
+								Finalizar Compra
+							</button>
+						</div>
 					</div>
-				</div>
+				</>
 			)}
 		</div>
 	);
