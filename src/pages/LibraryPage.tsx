@@ -51,9 +51,7 @@ export function LibraryPage() {
 										alt={`Arte de ${jogo.nome}`}
 										className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
 									/>
-									<span className="absolute left-3 top-3 rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-neutral-100 backdrop-blur-sm">
-										{jogo.categoriaNome}
-									</span>
+
 								</div>
 							</Link>
 							<div className="space-y-2 p-3.5">

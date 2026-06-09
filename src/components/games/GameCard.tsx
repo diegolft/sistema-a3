@@ -61,12 +61,8 @@ export function GameCard({ game, mode, isTopSeller }: Props) {
 						alt={`Arte do jogo ${game.nome}`}
 						className="h-full w-full object-cover"
 					/>
-				)}
-				<span className="pointer-events-none absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
-					{game.categoriaNome}
-				</span>
-				{isTopSeller ? (
-					<span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-gradient-to-r from-[#ff7a00] to-[#e05a00] px-2.5 py-1 text-[10px] font-bold text-white shadow-md">
+				)}				{isTopSeller ? (
+					<span className="pointer-events-none absolute right-3 top-3 rounded-full bg-gradient-to-r from-[#ff7a00] to-[#e05a00] px-2.5 py-1 text-[10px] font-bold text-white shadow-md">
 						Mais vendido
 					</span>
 				) : null}
