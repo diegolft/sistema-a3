@@ -36,6 +36,7 @@ export function GameDetailPage() {
 	const [comment, setComment] = useState("");
 	const [savingReview, setSavingReview] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [retryCount, setRetryCount] = useState(0);
 	const displayRating = hoveredStar ?? rating;
 
 	useEffect(() => {
@@ -75,7 +76,7 @@ export function GameDetailPage() {
 		return () => {
 			cancelled = true;
 		};
-	}, [numericId, token]);
+	}, [numericId, token, retryCount]);
 
 	if (!Number.isInteger(numericId)) {
 		return <Navigate to="/jogos" replace />;
@@ -167,7 +168,18 @@ export function GameDetailPage() {
 				Voltar
 			</Link>
 
-			{error ? <p className="mb-4 text-[14px] text-amber-300">{error}</p> : null}
+			{error ? (
+			<div className="mb-4 flex flex-wrap items-center gap-3">
+				<p className="text-[14px] text-amber-300">{error}</p>
+				<button
+					type="button"
+					onClick={() => setRetryCount((c) => c + 1)}
+					className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-gs-raised px-3 py-1.5 text-[13px] font-medium text-neutral-300 transition hover:bg-neutral-700/60"
+				>
+					↺ Tentar novamente
+				</button>
+			</div>
+		) : null}
 
 			<div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
 				<motion.img
