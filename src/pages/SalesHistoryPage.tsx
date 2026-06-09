@@ -87,16 +87,16 @@ export function SalesHistoryPage() {
 					</Link>
 				</div>
 			) : (
-				<div className="mt-6 space-y-3">
+				<ul role="list" className="mt-6 space-y-3">
 					{sales.map((sale) => (
-						<div
+						<li
 							key={sale.id}
 							className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-gs-surface p-4 shadow-[0_2px_12px_rgba(0,0,0,0.3)]"
 						>
 							<div>
-								<p className="text-[13px] text-neutral-400">
+								<time className="text-[13px] text-neutral-400" dateTime={sale.data}>
 									{formatDisplayDateTime(sale.data)}
-								</p>
+								</time>
 								<p className="mt-0.5 text-[14px] font-semibold text-neutral-100">
 									{sale.quantidade}{" "}
 									{sale.quantidade === 1 ? "jogo comprado" : "jogos comprados"}
@@ -105,9 +105,9 @@ export function SalesHistoryPage() {
 							<p className="text-lg font-bold text-[var(--color-gs-accent)]">
 								{formatBRL(sale.valorTotal)}
 							</p>
-						</div>
+						</li>
 					))}
-				</div>
+				</ul>
 			)}
 		</div>
 	);

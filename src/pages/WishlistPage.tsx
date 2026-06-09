@@ -38,11 +38,13 @@ export function WishlistPage() {
 					</Link>
 				</motion.div>
 			) : (
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{wishlistGames.map((game) => (
-						<GameCard key={game.id} game={game} mode="private" />
+						<li key={game.id}>
+							<GameCard game={game} mode="private" />
+						</li>
 					))}
-				</div>
+				</ul>
 			)}
 		</div>
 	);

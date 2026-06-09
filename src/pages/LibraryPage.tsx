@@ -35,9 +35,9 @@ export function LibraryPage() {
 					</Link>
 				</div>
 			) : (
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 					{ownedGames.map(({ chaveAtivacao, jogo }) => (
-						<motion.div
+						<motion.li
 							key={`${jogo.id}-${chaveAtivacao ?? "no-key"}`}
 							layout
 							whileHover={{ scale: 1.02, y: -2 }}
@@ -70,9 +70,9 @@ export function LibraryPage() {
 									</p>
 								</div>
 							</div>
-						</motion.div>
+						</motion.li>
 					))}
-				</div>
+				</ul>
 			)}
 		</div>
 	);

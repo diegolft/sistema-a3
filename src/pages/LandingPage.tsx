@@ -123,9 +123,9 @@ export function LandingPage() {
 
 			<div className="w-full border-t border-white/10 bg-gs-surface px-5 pb-16 pt-16 sm:px-8 md:px-12 md:pt-24 lg:px-16 lg:pt-28 xl:px-20">
 				<section className="relative z-10 w-full pb-14">
-					<div className="grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-12">
+					<ul role="list" className="grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-12">
 						{FEATURES.map((item, index) => (
-							<motion.div
+							<motion.li
 								key={item.title}
 								initial={{ opacity: 0, y: 24 }}
 								whileInView={{ opacity: 1, y: 0 }}
@@ -140,9 +140,9 @@ export function LandingPage() {
 								<p className="mt-2 max-w-[260px] text-[14px] leading-relaxed text-neutral-400">
 									{item.desc}
 								</p>
-							</motion.div>
+							</motion.li>
 						))}
-					</div>
+					</ul>
 				</section>
 
 				<section className="relative z-10 w-full pb-0">
@@ -173,9 +173,9 @@ export function LandingPage() {
 							Nenhum jogo publico foi retornado pela API neste momento.
 						</p>
 					) : (
-						<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+						<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
 							{featuredGames.map((game, index) => (
-								<motion.div
+								<motion.li
 									key={`${game.nome}-${index}`}
 									initial={{ opacity: 0, y: 20 }}
 									whileInView={{ opacity: 1, y: 0 }}
@@ -183,9 +183,9 @@ export function LandingPage() {
 									transition={{ delay: index * 0.06, type: "spring", stiffness: 320, damping: 26 }}
 								>
 									<GameCard game={game} mode="public" />
-								</motion.div>
+								</motion.li>
 							))}
-						</div>
+						</ul>
 					)}
 				</section>
 			</div>
