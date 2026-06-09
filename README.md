@@ -1,59 +1,97 @@
 # Game Store - sistema-a3
 
-Frontend da loja de jogos digitais em **React 19**, **Vite 6**, **Tailwind CSS 4** e
-**TypeScript**, agora integrado a `api-vendas-jogos-digitais`.
+Frontend da loja de jogos digitais em **React 19**, **Vite 6**, **Tailwind CSS 4** e **TypeScript**, integrado à API `api-vendas-jogos-digitais`.
 
-## O que a aplicacao consome
+---
 
-- autenticacao real com JWT
-- vitrine publica em `GET /api/v1/public/jogos`
-- catalogo autenticado, detalhe, reviews, carrinho, wishlist, biblioteca e vendas
-- painel administrativo para usuarios, empresas, perfis, jogos, categorias e relatorios
-
-## Pre-requisitos
+## Pré-requisitos
 
 - [Bun](https://bun.sh) 1.2 ou superior
+- [PostgreSQL](https://www.postgresql.org/download/windows) 14 ou superior
 
-## Instalacao
+---
 
-```bash
-git clone <url-do-repositorio>
-cd sistema-a3
-bun install
+## 1. Configurar o banco de dados
+
+Instale o PostgreSQL e anote a senha que você definir para o usuário `postgres`.
+
+Abra o **SQL Shell (psql)**, aperte Enter em todas as perguntas, digite sua senha quando solicitado e execute:
+
+```sql
+CREATE DATABASE avjd;
 ```
 
-## Variaveis de ambiente
+---
 
-Copie o exemplo e ajuste a URL da API:
+## 2. Rodar a API
 
 ```bash
+git clone https://github.com/diegolft/api-vendas-jogos-digitais.git
+cd api-vendas-jogos-digitais
+
 cp .env.example .env
 ```
 
-| Variavel | Descricao |
-| --- | --- |
-| `VITE_API_URL` | URL base da API REST, sem barra final. Ex.: `http://localhost:3000` |
+Abra o `.env` e ajuste `DB_PASSWORD` com a senha do seu PostgreSQL:
 
-## Rodar em desenvolvimento
+```env
+DB_PASSWORD=sua_senha_aqui
+```
+
+Depois instale as dependências, aplique as migrations e inicie:
 
 ```bash
+bun install
+bun run db:migrate
+bun run db:seed
+bun run start:dev
+```
+
+A API ficará disponível em `http://localhost:3000`.
+
+---
+
+## 3. Rodar o frontend
+
+Em outro terminal, na pasta deste projeto:
+
+```bash
+cp .env.example .env
+bun install
 bun run dev
 ```
 
-## Build
+Acesse **http://localhost:5173** no navegador.
 
-```bash
-bun run build
+---
+
+## Credenciais padrão (criadas pelo seed)
+
+| Perfil        | E-mail                 | Senha       |
+|---------------|------------------------|-------------|
+| Administrador | admin@avjd.com         | admin123    |
+| Cliente       | cliente@avjd.com       | cliente123  |
+
+---
+
+## Estrutura do projeto
+
+```
+src/
+  app/          # composição da aplicação e rotas
+  contexts/     # sessão, carrinho, biblioteca, wishlist e vendas
+  services/api/ # cliente HTTP, mapeadores e endpoints
+  pages/        # telas públicas, autenticadas e administrativas
+  components/   # componentes reutilizáveis
 ```
 
-## Estrutura
+---
 
-- `src/app/` - composicao da aplicacao e rotas
-- `src/contexts/` - sessao, carrinho, biblioteca, wishlist e historico de vendas
-- `src/services/api/` - cliente HTTP, mapeadores e consumo dos endpoints
-- `src/pages/` - telas publicas, autenticadas e administrativas
+## Scripts disponíveis
 
-## Credenciais de seed da API
-
-- administrador: `admin@avjd.com` / `admin123`
-- cliente: `cliente@avjd.com` / `cliente123`
+| Comando          | Descrição                        |
+|------------------|----------------------------------|
+| `bun run dev`    | Inicia o servidor de desenvolvimento |
+| `bun run build`  | Gera o build de produção         |
+| `bun run lint`   | Verifica o código com Biome      |
+| `bun run check`  | Corrige automaticamente com Biome |
