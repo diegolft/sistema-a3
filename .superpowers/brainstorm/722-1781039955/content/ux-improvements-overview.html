@@ -1,0 +1,104 @@
+<h2>5 Melhorias de UX — Visão Geral</h2>
+<p class="subtitle">Opção A: cada melhoria tem um nome técnico que vocês apontam na apresentação</p>
+
+<div class="section">
+  <h3>① Badge de Desconto — <span style="color:#f59e0b">Von Restorff Effect</span></h3>
+  <p>Jogos em promoção ganham um selo "-X%" vermelho no canto da imagem. Princípio: itens visualmente distintos são lembrados e notados primeiro.</p>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px">
+    <div style="background:#1e1e1e;border-radius:12px;overflow:hidden;width:180px;border:1px solid rgba(255,255,255,0.1)">
+      <div style="background:#2a2a2a;height:100px;position:relative;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px">
+        Capa do jogo
+        <span style="position:absolute;top:8px;left:8px;background:#ef4444;color:white;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px">-30%</span>
+        <span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:999px">Ação</span>
+      </div>
+      <div style="padding:10px">
+        <div style="font-size:13px;font-weight:700;color:#f5f5f5">Nome do Jogo</div>
+        <div style="font-size:11px;color:#737373;margin-top:2px">Empresa • 2024</div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px;font-weight:700;color:white">R$ 34,99</span>
+          <span style="font-size:11px;color:#737373;text-decoration:line-through">R$ 49,99</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#1e1e1e;border-radius:12px;overflow:hidden;width:180px;border:1px solid rgba(255,255,255,0.1)">
+      <div style="background:#2a2a2a;height:100px;position:relative;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px">
+        Capa do jogo
+        <span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:999px">RPG</span>
+      </div>
+      <div style="padding:10px">
+        <div style="font-size:13px;font-weight:700;color:#f5f5f5">Outro Jogo</div>
+        <div style="font-size:11px;color:#737373;margin-top:2px">Empresa • 2023</div>
+        <div style="margin-top:8px">
+          <span style="font-size:14px;font-weight:700;color:white">R$ 59,99</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#737373;margin-top:8px">O badge vermelho chama atenção imediatamente — o jogo sem desconto não tem o destaque.</p>
+</div>
+
+<div class="section">
+  <h3>② Página de Sucesso — <span style="color:#f59e0b">Peak-End Rule</span></h3>
+  <p>Após confirmar a compra, em vez de só fechar o modal, o usuário é levado a uma tela <code>/compra-concluida</code> com animação, resumo dos jogos comprados e botão para a biblioteca. Princípio: as pessoas julgam uma experiência pelo ponto alto e pelo fim — o checkout é o fim.</p>
+  <div style="background:#1e1e1e;border-radius:12px;padding:24px;text-align:center;border:1px solid rgba(255,255,255,0.1);max-width:360px;margin-top:12px">
+    <div style="font-size:36px;margin-bottom:8px">🎮</div>
+    <div style="font-size:18px;font-weight:700;color:#f5f5f5">Compra concluída!</div>
+    <div style="font-size:13px;color:#737373;margin-top:6px">2 jogos adicionados à sua biblioteca</div>
+    <div style="background:#1a1a1a;border-radius:8px;padding:10px;margin:12px 0;font-size:12px;color:#a3a3a3;border:1px solid rgba(255,255,255,0.08)">
+      Jogo A • Jogo B
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+      <div style="background:#ff7a00;color:white;font-size:12px;font-weight:600;padding:8px 16px;border-radius:999px;cursor:pointer">Ir para Biblioteca</div>
+      <div style="border:1px solid rgba(255,255,255,0.15);color:#d4d4d4;font-size:12px;padding:8px 16px;border-radius:999px;cursor:pointer">Ver Jogos</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>③ Contador + Ordenação — <span style="color:#f59e0b">Heurística 7 (Eficiência)</span></h3>
+  <p>Acima do grid de jogos: "12 jogos encontrados" + dropdown para ordenar por Relevância / Menor preço / Maior preço / Nome A–Z. Implementado puramente no front (sem nova chamada à API).</p>
+  <div style="background:#1e1e1e;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.1);max-width:500px;margin-top:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span style="font-size:13px;color:#a3a3a3"><span style="color:#f5f5f5;font-weight:600">12</span> jogos encontrados</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:12px;color:#737373">Ordenar:</span>
+        <div style="background:#2a2a2a;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 10px;font-size:12px;color:#f5f5f5">Menor preço ▾</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>④ Retry nos Erros — <span style="color:#f59e0b">Heurística 9 (Recuperação)</span></h3>
+  <p>Quando uma página falha ao carregar (API offline, timeout), em vez de só mostrar o texto de erro, aparece também um botão "Tentar novamente" que re-executa o fetch. Aplicado em: GamesPage, GameDetailPage, AdminReportsPage.</p>
+  <div style="background:#1e1e1e;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.1);max-width:400px;margin-top:12px">
+    <div style="color:#fbbf24;font-size:13px;margin-bottom:8px">⚠ Não foi possível carregar os jogos.</div>
+    <div style="display:flex;gap:8px">
+      <div style="background:#2a2a2a;border:1px solid rgba(255,255,255,0.15);color:#d4d4d4;font-size:12px;padding:7px 14px;border-radius:8px;cursor:pointer">↺ Tentar novamente</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>⑤ Etapas no Carrinho — <span style="color:#f59e0b">Goal Gradient Effect</span></h3>
+  <p>No topo da CartPage, um indicador visual de 3 etapas: Carrinho → Pagamento → Confirmação. O usuário vê onde está e quanto falta. Princípio: pessoas se esforçam mais quando percebem que estão perto do fim.</p>
+  <div style="background:#1e1e1e;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.1);max-width:400px;margin-top:12px">
+    <div style="display:flex;align-items:center;gap:0">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#ff7a00;color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">1</div>
+        <span style="font-size:10px;color:#ff7a00;font-weight:600">Carrinho</span>
+      </div>
+      <div style="flex:1;height:2px;background:#ff7a00;margin:0 4px;margin-bottom:14px"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#ff7a00;color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">2</div>
+        <span style="font-size:10px;color:#ff7a00;font-weight:600">Pagamento</span>
+      </div>
+      <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin:0 4px;margin-bottom:14px"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#2a2a2a;border:2px solid rgba(255,255,255,0.15);color:#737373;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">3</div>
+        <span style="font-size:10px;color:#737373">Confirmação</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:#737373;margin-top:8px">Usuário está na etapa 2 — falta 1 etapa. Isso cria urgência positiva.</p>
+  </div>
+</div>
