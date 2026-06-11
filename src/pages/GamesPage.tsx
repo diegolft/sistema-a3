@@ -68,7 +68,7 @@ export function GamesPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(nextError instanceof Error ? nextError.message : "Nao foi possivel carregar o catalogo.");
+					setError(nextError instanceof Error ? nextError.message : "Não foi possível carregar o catálogo.");
 					setGames([]);
 					setCategories(["Todos"]);
 				}
@@ -118,7 +118,7 @@ export function GamesPage() {
 				<p className="mt-1.5 text-[14px] text-neutral-400">
 					{isAuthenticated
 						? "Explore o catalogo completo conectado a API."
-						: "Visitantes veem a vitrine publica. Entre para abrir detalhes e comprar."}
+						: "Para ter acesso aos detalhes, é necessário uma conta."}
 				</p>
 			</header>
 
