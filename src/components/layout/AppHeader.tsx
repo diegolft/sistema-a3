@@ -4,7 +4,7 @@ import {
 	Heart,
 	LogOut,
 	Menu,
-	ShoppingCart,
+	ShoppingCart,	
 	User,
 	X,
 } from "lucide-react";
@@ -57,7 +57,7 @@ export function AppHeader() {
 				<nav aria-label="Navegação principal" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
 					{isAuthenticated ? null : (
 						<NavLink to="/" end className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}>
-							Inicio
+							Início
 						</NavLink>
 					)}
 					<NavLink to="/jogos" className={({ isActive }) => `${navBase} ${isActive ? navActive : ""}`}>
