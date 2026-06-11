@@ -11,23 +11,23 @@ import type { ExhibitionGame } from "@/types/domain";
 const FEATURES = [
 	{
 		icon: Gamepad2,
-		title: "Catalogo conectado",
-		desc: "A vitrine publica agora vem direto da API oficial da loja.",
+		title: "Catálogo conectado",
+		desc: "A vitrine pública agora vem direto do catálogo oficial da loja.",
 	},
 	{
 		icon: Shield,
 		title: "Compra segura",
-		desc: "Checkout, pagamento e biblioteca sincronizados com o backend.",
+		desc: "Pagamento rápido, seguro e verificado.",
 	},
 	{
 		icon: Star,
-		title: "Avaliacoes reais",
-		desc: "Entre para liberar detalhes, reviews e sua area pessoal.",
+		title: "Avaliações reais",
+		desc: "Entre para liberar detalhes, avaliações e sua área pessoal.",
 	},
 ] as const;
 
 const FALLBACK_IMAGES = [
-	buildGameImage("Game Store", "Catalogo digital"),
+	buildGameImage("Game Store", "Catálogo digital"),
 	buildGameImage("Aventura", "Descubra novos jogos"),
 	buildGameImage("Biblioteca", "Tudo sincronizado"),
 ];
@@ -50,7 +50,7 @@ export function LandingPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(nextError instanceof Error ? nextError.message : "Nao foi possivel carregar a vitrine publica.");
+					setError(nextError instanceof Error ? nextError.message : "Não foi possível carregar a vitrine pública.");
 				}
 			} finally {
 				if (!cancelled) {
@@ -77,22 +77,14 @@ export function LandingPage() {
 				<LandingBackgroundCarousel images={backgroundImages} />
 				<section className="relative z-10 flex min-h-[calc(100dvh-60px)] w-full flex-col items-center justify-center py-12 text-center md:py-16 lg:py-20">
 					<div className="mx-auto w-full max-w-3xl px-4 sm:max-w-4xl md:px-5 lg:max-w-5xl">
-						<motion.div
-							initial={{ opacity: 0, y: 12 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ type: "spring", stiffness: 300, damping: 28 }}
-							className="mb-6 inline-flex items-center gap-2 rounded-full bg-orange-500/10 px-3.5 py-1.5 text-[12px] font-semibold text-[var(--color-gs-accent)]"
-						>
-							<Sparkles className="h-4 w-4" strokeWidth={2} />
-							Loja integrada com a API oficial
-						</motion.div>
+
 						<motion.h1
 							initial={{ opacity: 0, y: 16 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.05 }}
 							className="text-balance text-pretty text-3xl font-bold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-6xl xl:leading-[1.1]"
 						>
-							Sua proxima aventura <span className="text-[var(--color-gs-accent)]">comeca aqui.</span>
+							Sua próxima aventura <span className="text-[var(--color-gs-accent)]">comeca aqui.</span>
 						</motion.h1>
 						<motion.p
 							initial={{ opacity: 0 }}
@@ -100,8 +92,9 @@ export function LandingPage() {
 							transition={{ delay: 0.12, duration: 0.4 }}
 							className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-neutral-400 sm:max-w-2xl"
 						>
-							Descubra o catalogo da loja, crie sua conta e desbloqueie detalhes, carrinho,
-							pagamento e biblioteca sincronizados em tempo real.
+							{/* Descubra o catálogo da loja, crie sua conta e desbloqueie detalhes, carrinho,
+							pagamento e biblioteca sincronizados em tempo real. */}
+							Crie sua conta e jogue sem complicações. Catálogo, detalhes, avaliações e mais sempre atualizados.
 						</motion.p>
 						<motion.div
 							initial={{ opacity: 0, y: 10 }}
@@ -149,19 +142,19 @@ export function LandingPage() {
 					<div className="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 						<div>
 							<h2 className="text-xl font-bold tracking-tight text-white md:text-[22px]">
-								Vitrine Publica
+								Vitrine Pública
 							</h2>
 							<p className="mt-0.5 text-[14px] text-neutral-400">
 								{loading
 									? "Carregando jogos em destaque..."
-									: "Entre na sua conta para ver detalhes, reviews e concluir compras."}
+									: "Entre na sua conta para ver detalhes, avaliações e concluir compras."}
 							</p>
 						</div>
 						<Link
 							to="/jogos"
 							className="inline-flex items-center gap-1.5 self-start text-[14px] font-semibold text-[var(--color-gs-accent)] transition hover:text-[var(--color-gs-accent-hover)] sm:self-auto"
 						>
-							Ver catalogo
+							Ver catálogo
 							<ArrowRight className="h-4 w-4" strokeWidth={2.5} />
 						</Link>
 					</div>
@@ -170,7 +163,7 @@ export function LandingPage() {
 
 					{featuredGames.length === 0 && !loading ? (
 						<p className="rounded-2xl border border-white/10 bg-gs-raised p-6 text-[14px] text-neutral-300">
-							Nenhum jogo publico foi retornado pela API neste momento.
+							Nenhum jogo público disponível até o momento.
 						</p>
 					) : (
 						<ul role="list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
