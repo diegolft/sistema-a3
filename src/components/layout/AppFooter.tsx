@@ -98,7 +98,7 @@ export function AppFooter() {
 
 						<p className={`mt-1 max-w-md text-sm ${muted}`}>
 
-							Respostas rápidas sobre compras, chaves e biblioteca.
+							Basta selecionar a interrogação à direita que tiraremos suas dúvidas.
 
 						</p>
 
@@ -162,7 +162,7 @@ export function AppFooter() {
 
 								<MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-gs-accent)]" />
 
-								<span>Av. Paulista, 1000 — Bela Vista, São Paulo — SP, 01310-100</span>
+								<span>Av. Tancredo Neves, 2131 — Caminho das Árvores, Salvador — BA, 41820-020</span>
 
 							</li>
 
