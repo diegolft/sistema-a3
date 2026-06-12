@@ -20,7 +20,7 @@ const ITEMS = [
 
 		q: "Quais formas de pagamento são aceitas?",
 
-		a: "Nesta demonstração, o fluxo de pagamento é simulado. Em produção, costuma-se integrar cartão, Pix e carteiras digitais conforme o gateway escolhido.",
+		a: "Aceitamos cartões de crédito, débito, pagamento por através de pix e boleto bancário.",
 
 	},
 
@@ -28,8 +28,28 @@ const ITEMS = [
 
 		q: "Posso pedir reembolso?",
 
-		a: "Políticas de reembolso dependem do tipo de produto e da legislação local. Em ambiente real, descreva prazos e condições aqui e mantenha o canal de suporte visível.",
-
+		a: (
+		<>
+			<p>
+				Compreendemos que imprevistos acontecem. Você pode solicitar o reembolso de um
+				jogo digital adquirido em nossa plataforma, desde que atenda a{" "}
+				<strong className="text-neutral-200">todos</strong> os seguintes critérios:
+			</p>
+			<ul className="mt-2 list-disc space-y-1.5 pl-5">
+				<li>
+					<strong className="text-neutral-200">Prazo de Solicitação:</strong> A
+					solicitação é feita dentro de{" "}
+					<strong className="text-neutral-200">7 dias</strong> a partir da data de
+					compra.
+				</li>
+				<li>
+					<strong className="text-neutral-200">Limite de Uso (Game Time):</strong> O
+					tempo de execução ou gameplay acumulado não ultrapassa{" "}
+					<strong className="text-neutral-200">2 horas</strong>.
+				</li>
+			</ul>
+		</>
+	),
 	},
 
 	{
