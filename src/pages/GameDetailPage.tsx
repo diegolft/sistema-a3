@@ -63,7 +63,7 @@ export function GameDetailPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar o jogo."));
+					setError(getFormErrorMessage(nextError, "Não foi possivel carregar o jogo."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -100,10 +100,10 @@ export function GameDetailPage() {
 			};
 			if (userReview) {
 				await updateReview(payload, authToken);
-				toast.success("Avaliacao atualizada com sucesso.");
+				toast.success("Avaliação atualizada com sucesso.");
 			} else {
 				await createReview(payload, authToken);
-				toast.success("Avaliacao enviada! Obrigado pelo feedback.");
+				toast.success("Avaliação enviada! Agradecemos o feedback.");
 			}
 
 			const [nextAverage, nextUserReview] = await Promise.all([
@@ -113,7 +113,7 @@ export function GameDetailPage() {
 			setReviewAverage(nextAverage);
 			setUserReview(nextUserReview);
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel salvar sua avaliacao."));
+			setError(getFormErrorMessage(nextError, "Não foi possível salvar sua avaliação."));
 		} finally {
 			setSavingReview(false);
 		}
@@ -124,7 +124,7 @@ export function GameDetailPage() {
 		try {
 			await addToCart(game.id);
 		} catch (nextError) {
-			toast.error(getFormErrorMessage(nextError, "Nao foi possivel adicionar o jogo ao carrinho."));
+			toast.error(getFormErrorMessage(nextError, "Não foi possível adicionar o jogo ao carrinho."));
 		}
 	}
 
@@ -133,7 +133,7 @@ export function GameDetailPage() {
 		try {
 			await toggleWishlist(game.id);
 		} catch (nextError) {
-			toast.error(getFormErrorMessage(nextError, "Nao foi possivel atualizar a lista de desejos."));
+			toast.error(getFormErrorMessage(nextError, "Não foi possível atualizar a lista de desejos."));
 		}
 	}
 
@@ -202,7 +202,7 @@ export function GameDetailPage() {
 					</p>
 					{alreadyOwned ? (
 						<p className="mt-3 inline-flex rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[12px] font-semibold text-emerald-200">
-							Este jogo ja esta na sua biblioteca
+							Este jogo já está na sua biblioteca
 						</p>
 					) : null}
 					<p className="mt-4 text-[15px] leading-relaxed text-neutral-400">{game.descricao}</p>
@@ -214,10 +214,10 @@ export function GameDetailPage() {
 					</div>
 					<div className="mt-3 rounded-2xl border border-white/10 bg-gs-surface p-4">
 						<p className="text-[13px] font-semibold text-neutral-200">
-							Media da comunidade: {reviewAverage ? `${reviewAverage.media.toFixed(1)} / 5` : "Sem notas ainda"}
+							Média da comunidade: {reviewAverage ? `${reviewAverage.media.toFixed(1)} / 5` : "Sem notas ainda"}
 						</p>
 						<p className="mt-1 text-[13px] text-neutral-400">
-							{reviewAverage ? `${reviewAverage.totalAvaliacoes} avaliacoes registradas` : "Seja o primeiro a avaliar este jogo."}
+							{reviewAverage ? `${reviewAverage.totalAvaliacoes} avaliações registradas` : "Seja o primeiro a avaliar este jogo."}
 						</p>
 					</div>
 					<div className="mt-6 flex flex-wrap gap-2.5">
@@ -257,7 +257,7 @@ export function GameDetailPage() {
 			<section className="mt-12 grid gap-8 border-t border-white/10 pt-9 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:mt-14 md:pt-10">
 				<div className="max-w-xl">
 					<h2 className="text-lg font-bold text-neutral-100">
-						{userReview ? "Atualize sua avaliacao" : "Deixe sua avaliacao"}
+						{userReview ? "Atualize sua avaliação" : "Deixe sua avaliação"}
 					</h2>
 					<form onSubmit={handleReview} className="mt-5 space-y-4">
 						<div>
@@ -296,7 +296,7 @@ export function GameDetailPage() {
 							value={comment}
 							onChange={(event) => setComment(event.target.value)}
 							rows={4}
-							placeholder="Escreva seu comentario..."
+							placeholder="Escreva seu comentário..."
 							className="w-full resize-none rounded-xl border border-white/10 bg-gs-raised px-3.5 py-2.5 text-[14px] text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-[var(--color-gs-accent)]/40 focus:bg-gs-surface focus:ring-2 focus:ring-[var(--color-gs-accent)]/15"
 						/>
 						<button
@@ -304,13 +304,13 @@ export function GameDetailPage() {
 							disabled={savingReview}
 							className="rounded-full bg-[var(--color-gs-accent)] px-5 py-2.5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[var(--color-gs-accent-hover)] disabled:pointer-events-none disabled:opacity-60"
 						>
-							{savingReview ? "Salvando..." : userReview ? "Atualizar avaliacao" : "Enviar avaliacao"}
+							{savingReview ? "Salvando..." : userReview ? "Atualizar avaliação" : "Enviar avaliação"}
 						</button>
 					</form>
 				</div>
 
 				<div>
-					<h2 className="text-lg font-bold text-neutral-100">Ultimas avaliacoes</h2>
+					<h2 className="text-lg font-bold text-neutral-100">Últimas avaliações</h2>
 					{reviewAverage?.avaliacoes.length ? (
 						<ul role="list" className="mt-5 space-y-3">
 							{reviewAverage.avaliacoes.map((review) => (
@@ -333,7 +333,7 @@ export function GameDetailPage() {
 						</ul>
 					) : (
 						<p className="mt-5 rounded-2xl border border-white/10 bg-gs-surface p-4 text-[14px] text-neutral-400">
-							A comunidade ainda nao avaliou este jogo.
+							Jogo não avaliado. Seja o primeiro a deixar uma avaliação!
 						</p>
 					)}
 				</div>
