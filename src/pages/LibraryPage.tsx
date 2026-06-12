@@ -13,7 +13,7 @@ export function LibraryPage() {
 				<h1 className="text-2xl font-bold tracking-tight text-neutral-100 md:text-3xl">
 					Minha Biblioteca
 				</h1>
-				<p className="mt-1.5 text-[14px] text-neutral-400">Jogos que voce adquiriu</p>
+				<p className="mt-1.5 text-[14px] text-neutral-400">Jogos que você adquiriu</p>
 			</header>
 
 			{isLoading ? (
@@ -25,7 +25,7 @@ export function LibraryPage() {
 			) : ownedGames.length === 0 ? (
 				<div className="flex flex-col items-center justify-center py-16 text-center">
 					<p className="max-w-sm text-[14px] text-neutral-400">
-						Voce ainda nao tem jogos na biblioteca. Finalize uma compra no carrinho para ve-los aqui.
+						Você ainda não tem jogos na biblioteca. Finalize uma compra no carrinho para vê-los aqui.
 					</p>
 					<Link
 						to="/jogos"
@@ -61,10 +61,10 @@ export function LibraryPage() {
 								</p>
 								<div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2">
 									<p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
-										Chave de ativacao
+										Chave de ativação
 									</p>
 									<p className="mt-1 break-all text-[12px] text-emerald-50">
-										{chaveAtivacao ?? "Aguardando emissao da chave"}
+										{chaveAtivacao ?? "Aguardando emissão da chave de ativação..."}
 									</p>
 								</div>
 							</div>
