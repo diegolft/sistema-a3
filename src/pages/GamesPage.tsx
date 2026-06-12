@@ -117,7 +117,7 @@ export function GamesPage() {
 				<h1 className="text-2xl font-bold tracking-tight text-neutral-100 md:text-3xl">Jogos</h1>
 				<p className="mt-1.5 text-[14px] text-neutral-400">
 					{isAuthenticated
-						? "Explore o catalogo completo conectado a API."
+						? "Explore o nosso catálogo de jogos completamente."
 						: "Para ter acesso aos detalhes, é necessário uma conta."}
 				</p>
 			</header>
