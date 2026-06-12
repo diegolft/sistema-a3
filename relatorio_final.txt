@@ -1,0 +1,100 @@
+RELATÓRIO FINAL — PROJETO A3
+Usabilidade e Desenvolvimento Web
+GameStore — Plataforma de Vendas de Jogos Digitais
+============================================================
+
+
+QUESTÃO 2 — O PROBLEMA QUE NOS TROUXE ATÉ AQUI
+------------------------------------------------------------
+
+Quando a equipe recebeu o desafio, a primeira reação foi tratar tudo como
+um problema técnico: criar telas, conectar com a API, fazer funcionar. A
+ideia de "usabilidade" ficava em segundo plano, como se fosse apenas uma
+questão de deixar o layout bonito. Essa visão mudou bastante ao longo do
+projeto. Conforme fomos desenvolvendo, percebemos que o verdadeiro problema
+não era a falta de funcionalidades, mas sim a qualidade da experiência para
+quem usa. Um sistema pode ter tudo implementado e ainda assim frustrar o
+usuário com mensagens de erro vagas, sem feedback de carregamento, sem uma
+saída clara quando algo dá errado. Estudar as heurísticas de Nielsen ajudou
+a nomear problemas que a gente já sentia na pele como usuários, mas não
+sabia articular como desenvolvedores. Outro entendimento que surgiu durante
+o projeto foi a dependência crítica entre frontend e backend: pequenas
+diferenças no contrato da API, como um campo com nome diferente do esperado,
+podem quebrar funcionalidades inteiras sem gerar nenhum erro visível. No
+fim, o grupo saiu com uma visão muito mais madura do que significa construir
+software pensado de verdade para o usuário final.
+
+
+QUESTÃO 3 — ONDE QUERÍAMOS CHEGAR E O QUE MUDOU NO CAMINHO
+------------------------------------------------------------
+
+O objetivo original era simples: uma loja de jogos digitais com login,
+catálogo, carrinho, compra e histórico. Parecia direto. Na prática, cada
+funcionalidade trouxe decisões que não estavam no planejamento. A primeira
+surpresa foi descobrir que a API não oferece criação ou exclusão de
+categorias, então a tela de gerenciamento de categorias acabou ficando
+apenas como consulta, diferente do que havíamos planejado. O fluxo de
+compra também exigiu adaptação: a API divide a finalização em duas chamadas
+separadas, checkout e pagamento, algo que só ficou claro quando fomos
+implementar de fato. O gráfico de ranking por categoria também precisou ser
+construído de forma diferente, cruzando dados de dois endpoints porque não
+existe um relatório direto para isso na API. Do ponto de vista de
+usabilidade, o objetivo evoluiu de "aplicar heurísticas" para "conseguir
+mostrar onde cada heurística está no código", o que exigiu um cuidado muito
+maior nas decisões de implementação. Essas adaptações, mesmo que não
+planejadas, ensinaram mais sobre desenvolvimento real do que qualquer
+requisito fixo teria ensinado.
+
+
+QUESTÃO 4 — OS DESAFIOS DE CONTINUAR
+------------------------------------------------------------
+
+Chegar até aqui foi desafiador, mas continuidade tem seus próprios
+obstáculos. O maior deles é que o frontend depende de um backend que está
+fora do controle da equipe: qualquer alteração na API pode quebrar partes
+do sistema sem aviso. Para que o projeto cresça de forma estável, seria
+essencial criar testes automatizados de integração que detectem essas
+quebras antes de chegarem ao usuário. Outro ponto é a performance: hoje o
+carrinho busca a lista completa de jogos para montar os itens, o que
+funciona bem com poucos dados, mas poderia se tornar lento com um catálogo
+maior. A acessibilidade também ainda tem espaço para melhorar, especialmente
+em componentes como o seletor de método de pagamento, que usa elementos
+customizados onde elementos nativos do HTML seriam mais compatíveis com
+leitores de tela. No lado humano, manter consistência entre múltiplos
+desenvolvedores sem uma documentação formal de padrões foi um desafio
+constante. A equipe conseguiu contornar isso na prática, mas para um projeto
+de longo prazo isso precisaria ser resolvido com uma guia de estilo e
+revisões de código mais estruturadas. Esses desafios não são barreiras, são
+a próxima fase natural do projeto.
+
+
+QUESTÃO 5 — VALE A PENA? TEM FUTURO?
+------------------------------------------------------------
+
+A opinião da equipe é que sim, o projeto tem futuro real. O mercado
+brasileiro de jogos cresce ano a ano, e ainda não existe uma plataforma
+nacional consolidada focada em jogos independentes e desenvolvedores locais.
+O que construímos prova que é tecnicamente viável criar essa plataforma com
+ferramentas modernas e acessíveis. Para sair de MVP acadêmico e se tornar
+um produto de verdade, precisaria de integração com um gateway de pagamento
+real como PagSeguro ou Stripe, um sistema automatizado de entrega de chaves
+de ativação, infraestrutura escalável em nuvem e, principalmente, parceiros
+publicadores dispostos a distribuir seus jogos pela plataforma. Dentro da
+equipe, existe uma divergência saudável sobre o modelo de negócio: parte do
+grupo acredita em uma plataforma direta ao consumidor, competindo com Steam
+e Epic no nicho brasileiro; outra parte vê mais viabilidade em oferecer a
+plataforma como serviço para estúdios independentes montarem suas próprias
+lojas. Essa tensão não é um problema, é exatamente o tipo de discussão que
+acontece em startups reais na fase de descoberta de produto. O que a equipe
+tem em comum é a certeza de que o trabalho que desenvolvemos vai além de um
+requisito de faculdade, e pode, com investimento e continuidade, se tornar
+algo significativo.
+
+
+============================================================
+Projeto desenvolvido por: [nomes da equipe]
+Curso: Engenharia de Software
+Disciplina: Usabilidade e Desenvolvimento Web
+Instituição: [nome da instituição]
+Data: Junho de 2026
+============================================================

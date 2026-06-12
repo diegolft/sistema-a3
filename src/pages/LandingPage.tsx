@@ -92,8 +92,7 @@ export function LandingPage() {
 							transition={{ delay: 0.12, duration: 0.4 }}
 							className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-neutral-400 sm:max-w-2xl"
 						>
-							{/* Descubra o catálogo da loja, crie sua conta e desbloqueie detalhes, carrinho,
-							pagamento e biblioteca sincronizados em tempo real. */}
+							
 							Crie sua conta e jogue sem complicações. Catálogo, detalhes, avaliações e mais sempre atualizados.
 						</motion.p>
 						<motion.div
