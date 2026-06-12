@@ -18,19 +18,19 @@ const PAYMENT_METHODS: Array<{
 	{
 		value: "pix",
 		label: "Pix",
-		description: "Pagamento instantaneo para liberar sua compra em seguida.",
+		description: "Pagamento instantâneo para a liberação da sua compra em seguida.",
 		Icon: QrCode,
 	},
 	{
 		value: "cartao",
-		label: "Cartao",
-		description: "Use o fluxo simplificado da API para cartao de credito.",
+		label: "Cartão",
+		description: "Pagamento em cartão de crédito/débito.",
 		Icon: CreditCard,
 	},
 	{
 		value: "boleto",
 		label: "Boleto",
-		description: "Geracao simulada pelo backend da loja.",
+		description: "Pagamento através da geração de boleto bancário.",
 		Icon: ReceiptText,
 	},
 ];
@@ -99,7 +99,7 @@ export function CartPage() {
 				state: { items: purchasedItems, total: purchasedTotal },
 			});
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Nao foi possivel concluir a compra.");
+			toast.error(error instanceof Error ? error.message : "Não foi possivel concluir a compra.");
 		} finally {
 			setFinalizing(false);
 		}
@@ -119,7 +119,7 @@ export function CartPage() {
 				},
 			});
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Nao foi possivel remover o item.");
+			toast.error(error instanceof Error ? error.message : "Não foi possivel remover o item.");
 		}
 	}
 
@@ -228,11 +228,11 @@ export function CartPage() {
 								<span className="text-xl font-bold text-neutral-100">{formatBRL(total)}</span>
 							</div>
 							<p className="mt-2 text-[12px] text-neutral-500">
-								Os jogos comprados entram automaticamente na sua biblioteca apos o checkout.
+								Os jogos comprados são automaticamente adicionados à sua biblioteca após a verificação do pagamento.
 							</p>
 
 							<div role="radiogroup" aria-label="Metodo de pagamento" className="mt-5 space-y-3">
-								<p className="text-[13px] font-semibold text-neutral-200">Metodo de pagamento</p>
+								<p className="text-[13px] font-semibold text-neutral-200">Método de pagamento</p>
 								{PAYMENT_METHODS.map(({ value, label, description, Icon }) => {
 									const selected = paymentMethod === value;
 									return (
