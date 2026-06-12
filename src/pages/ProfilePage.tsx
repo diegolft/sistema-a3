@@ -46,7 +46,7 @@ export function ProfilePage() {
 			});
 			toast.success("Perfil atualizado com sucesso.");
 		} catch (error) {
-			setProfileError(getFormErrorMessage(error, "Nao foi possivel atualizar o perfil."));
+			setProfileError(getFormErrorMessage(error, "Não foi possível atualizar o perfil."));
 		} finally {
 			setSavingProfile(false);
 		}
@@ -67,7 +67,7 @@ export function ProfilePage() {
 			setNewPassword("");
 			toast.success("Senha alterada com sucesso.");
 		} catch (error) {
-			setPwdError(getFormErrorMessage(error, "Nao foi possivel alterar a senha."));
+			setPwdError(getFormErrorMessage(error, "Não foi possível alterar a senha."));
 		} finally {
 			setPwdLoading(false);
 		}
@@ -189,9 +189,9 @@ export function ProfilePage() {
 				transition={{ delay: 0.1 }}
 				className="mt-6 rounded-xl border border-white/10 bg-gs-surface p-5 shadow-[0_3px_18px_rgba(0,0,0,0.32)]"
 			>
-				<h2 className="text-base font-bold text-neutral-100">Historico de compras</h2>
+				<h2 className="text-base font-bold text-neutral-100">Histórico de compras</h2>
 				<p className="mt-1 text-[13px] text-neutral-400">
-					As compras abaixo sao carregadas a partir do endpoint real de vendas.
+					As compras abaixo representam suas transações anteriores.
 				</p>
 				<div className="mt-4 space-y-3">
 					{salesLoading ? (
@@ -201,7 +201,7 @@ export function ProfilePage() {
 						</>
 					) : sales.length === 0 ? (
 						<p className="rounded-2xl border border-white/10 bg-gs-raised p-4 text-[14px] text-neutral-400">
-							Voce ainda nao concluiu nenhuma compra.
+							Você ainda não concluiu nenhuma compra.
 						</p>
 					) : (
 						<ul role="list" className="space-y-3">
