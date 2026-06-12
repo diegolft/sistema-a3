@@ -11,8 +11,8 @@ import type { ExhibitionGame } from "@/types/domain";
 const FEATURES = [
 	{
 		icon: Gamepad2,
-		title: "Catálogo conectado",
-		desc: "A vitrine pública agora vem direto do catálogo oficial da loja.",
+		title: "Catálogo de jogos",
+		desc: "Veja os principais jogos da atualidade direto do catálogo oficial da loja.",
 	},
 	{
 		icon: Shield,
