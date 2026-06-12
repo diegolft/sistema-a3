@@ -11,10 +11,7 @@ export function PrivacidadePage() {
 				Política de privacidade
 			</h1>
 			<div className={card}>
-<div className={card}>
-	<p className={`text-[14px] leading-relaxed ${body}`}>
-		Última atualização: 1º de junho de 2026
-	</p>
+
 
 	<p className={`mt-3 text-[14px] leading-relaxed ${body}`}>
 		Esta política descreve como a Game Store coleta, usa, armazena e protege os dados
@@ -122,6 +119,5 @@ export function PrivacidadePage() {
 	</p>
 </div>
 			</div>
-		</div>
 	);
 }

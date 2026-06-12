@@ -8,10 +8,8 @@ export function TermosPage() {
 		<div className="mx-auto max-w-2xl pb-6">
 			<h1 className={`mb-5 text-2xl font-bold tracking-tight md:text-3xl ${title}`}>Termos de uso</h1>
 			<div className={card}>
-				<div className={card}>
-	<p className={`text-[14px] leading-relaxed ${body}`}>
-		Última atualização: 1º de junho de 2026
-	</p>
+
+
 
 	<p className={`mt-3 text-[14px] leading-relaxed ${body}`}>
 		Bem-vindo à Game Store. Ao criar uma conta e utilizar nossa plataforma, você concorda
@@ -119,10 +117,9 @@ export function TermosPage() {
 	</p>
 </div>
 				<p className={`mt-3 text-[14px] leading-relaxed ${body}`}>
-					Em produção, recomenda-se revisão jurídica e data de última atualização visível no topo ou rodapé
-					desta página.
+
 				</p>
 			</div>
-		</div>
+
 	);
 }
