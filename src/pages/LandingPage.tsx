@@ -176,7 +176,7 @@ export function LandingPage() {
 						<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
 							{featuredGames.map((game, index) => (
 								<motion.div
-									key={`${game.nome}-${index}`}
+									key={`${game.nome}-${game.empresaNome}`}
 									initial={{ opacity: 0, y: 20 }}
 									whileInView={{ opacity: 1, y: 0 }}
 									viewport={{ once: true, margin: "-20px" }}

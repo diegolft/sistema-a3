@@ -54,7 +54,7 @@ export function AdminCategoriesPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-			<AdminSection title="Categorias" description="CCategorias disponíveis.">
+			<AdminSection title="Categorias" description="Categorias disponíveis.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando categorias...</p>

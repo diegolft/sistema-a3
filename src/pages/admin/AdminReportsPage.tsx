@@ -129,7 +129,7 @@ export function AdminReportsPage() {
 							</thead>
 							<tbody className="divide-y divide-white/10">
 								{results.map((item, index) => (
-									<tr key={`${item.nome}-${index}`}>
+									<tr key={`${item.nome}-${item.empresa}`}>
 										<td className="py-3 pr-4 text-neutral-400">#{index + 1}</td>
 										<td className="py-3 pr-4 text-neutral-100">{item.nome}</td>
 										<td className="py-3 pr-4 text-neutral-400">{item.empresa}</td>

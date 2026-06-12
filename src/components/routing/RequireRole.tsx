@@ -2,10 +2,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {
-	role: string;
+	requiredRole: string;
 };
 
-export function RequireRole({ role }: Props) {
+export function RequireRole({ requiredRole }: Props) {
 	const { isAuthenticated, isLoadingUser, user } = useAuth();
 
 	if (!isAuthenticated) {
@@ -16,7 +16,7 @@ export function RequireRole({ role }: Props) {
 		return <p className="py-10 text-center text-[14px] text-neutral-400">Carregando permissões...</p>;
 	}
 
-	if (user?.perfil !== role) {
+	if (user?.perfil !== requiredRole) {
 		return <Navigate to="/jogos" replace />;
 	}
 

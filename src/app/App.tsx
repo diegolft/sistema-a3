@@ -65,7 +65,7 @@ export function App() {
 										<Route path="perfil" element={<ProfilePage />} />
 									</Route>
 
-									<Route element={<RequireRole role="Administrador" />}>
+									<Route element={<RequireRole requiredRole="Administrador" />}>
 										<Route path="admin" element={<AdminLayout />}>
 											<Route index element={<Navigate to="/admin/usuarios" replace />} />
 											<Route path="usuarios" element={<AdminUsersPage />} />
