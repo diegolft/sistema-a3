@@ -61,9 +61,9 @@ export function GameDetailPage() {
 					setRating(nextUserReview?.nota ?? 5);
 					setComment(nextUserReview?.comentario ?? "");
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Não foi possivel carregar o jogo."));
+					setError(getFormErrorMessage(err, "Não foi possível carregar o jogo."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -112,8 +112,8 @@ export function GameDetailPage() {
 			]);
 			setReviewAverage(nextAverage);
 			setUserReview(nextUserReview);
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Não foi possível salvar sua avaliação."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível salvar sua avaliação."));
 		} finally {
 			setSavingReview(false);
 		}
@@ -123,8 +123,8 @@ export function GameDetailPage() {
 		if (!game) return;
 		try {
 			await addToCart(game.id);
-		} catch (nextError) {
-			toast.error(getFormErrorMessage(nextError, "Não foi possível adicionar o jogo ao carrinho."));
+		} catch (err) {
+			toast.error(getFormErrorMessage(err, "Não foi possível adicionar o jogo ao carrinho."));
 		}
 	}
 
@@ -132,8 +132,8 @@ export function GameDetailPage() {
 		if (!game) return;
 		try {
 			await toggleWishlist(game.id);
-		} catch (nextError) {
-			toast.error(getFormErrorMessage(nextError, "Não foi possível atualizar a lista de desejos."));
+		} catch (err) {
+			toast.error(getFormErrorMessage(err, "Não foi possível atualizar a lista de desejos."));
 		}
 	}
 
@@ -331,7 +331,7 @@ export function GameDetailPage() {
 											</time>
 										</div>
 										<p className="mt-2 text-[14px] leading-relaxed text-neutral-300">
-											{review.comentario || "Sem comentario informado."}
+											{review.comentario || "Sem comentário informado."}
 										</p>
 									</article>
 								</li>

@@ -99,7 +99,7 @@ export function CartPage() {
 				state: { items: purchasedItems, total: purchasedTotal },
 			});
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Não foi possivel concluir a compra.");
+			toast.error(error instanceof Error ? error.message : "Não foi possível concluir a compra.");
 		} finally {
 			setFinalizing(false);
 		}
@@ -119,7 +119,7 @@ export function CartPage() {
 				},
 			});
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Não foi possivel remover o item.");
+			toast.error(error instanceof Error ? error.message : "Não foi possível remover o item.");
 		}
 	}
 
@@ -173,7 +173,7 @@ export function CartPage() {
 					<div className="mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-gs-raised text-neutral-500">
 						<ShoppingBag className="h-11 w-11" strokeWidth={1.25} aria-hidden />
 					</div>
-					<p className="text-[14px] text-neutral-400">Seu carrinho esta vazio.</p>
+					<p className="text-[14px] text-neutral-400">Seu carrinho está vazio.</p>
 					<Link
 						to="/jogos"
 						className="mt-6 rounded-full bg-[var(--color-gs-accent)] px-6 py-3 text-[14px] font-semibold text-white shadow-[0_4px_18px_rgba(255,140,51,0.32)] transition hover:bg-[var(--color-gs-accent-hover)]"

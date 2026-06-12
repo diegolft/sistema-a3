@@ -16,7 +16,7 @@ export function toInputDate(value: string | null | undefined): string {
 }
 
 export function formatDisplayDate(value: string | null | undefined): string {
-	if (!value) return "Nao informado";
+	if (!value) return "Não informado";
 	const parsed = new Date(value);
 	if (Number.isNaN(parsed.getTime())) return value;
 	return new Intl.DateTimeFormat("pt-BR", {
@@ -25,7 +25,7 @@ export function formatDisplayDate(value: string | null | undefined): string {
 }
 
 export function formatDisplayDateTime(value: string | null | undefined): string {
-	if (!value) return "Nao informado";
+	if (!value) return "Não informado";
 	const parsed = new Date(value);
 	if (Number.isNaN(parsed.getTime())) return value;
 	return new Intl.DateTimeFormat("pt-BR", {

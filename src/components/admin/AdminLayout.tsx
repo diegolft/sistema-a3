@@ -4,14 +4,14 @@ import { NavLink, Outlet } from "react-router-dom";
 const LINKS = [
 	{
 		to: "/admin/relatorios",
-		label: "Relatorios",
+		label: "Relatórios",
 		description: "Mais vendidos e filtros",
 		Icon: BarChart3,
 	},
 	{
 		to: "/admin/usuarios",
-		label: "Usuarios",
-		description: "Consulta e edicao de contas",
+		label: "Usuários",
+		description: "Consulta e edição de contas",
 		Icon: Users,
 	},
 	{
@@ -23,13 +23,13 @@ const LINKS = [
 	{
 		to: "/admin/perfis",
 		label: "Perfis",
-		description: "Perfis e papeis disponiveis",
+		description: "Perfis e papéis disponíveis",
 		Icon: ShieldCheck,
 	},
 	{
 		to: "/admin/jogos",
 		label: "Jogos",
-		description: "Cadastro e manutencao do catalogo",
+		description: "Cadastro e manutenção do catálogo",
 		Icon: Gamepad2,
 	},
 	{
@@ -47,10 +47,10 @@ export function AdminLayout() {
 				<p className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[var(--color-gs-accent)]">
 					Painel administrativo
 				</p>
-				<h1 className="mt-2 text-3xl font-bold tracking-tight text-neutral-100">Administracao da loja</h1>
+				<h1 className="mt-2 text-3xl font-bold tracking-tight text-neutral-100">Administração da loja</h1>
 				<p className="mt-2 max-w-3xl text-[14px] leading-relaxed text-neutral-400">
-					Todas as telas abaixo consomem os endpoints administrativos existentes na API
-					`api-vendas-jogos-digitais`.
+					Gerencie usuários, empresas, perfis, jogos e categorias, e acompanhe os relatórios
+					de vendas da loja.
 				</p>
 			</header>
 

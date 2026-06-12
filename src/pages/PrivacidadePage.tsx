@@ -3,7 +3,6 @@ export function PrivacidadePage() {
 	const body = "text-neutral-400";
 	const card =
 		"rounded-xl border border-white/10 bg-gs-surface p-6 shadow-[0_3px_16px_rgba(0,0,0,0.3)]";
-	const h2 = "mt-6 text-base font-bold text-neutral-100";
 
 	return (
 		<div className="mx-auto max-w-2xl pb-6">

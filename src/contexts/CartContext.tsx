@@ -63,7 +63,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 	const addToCartHandler = useCallback(
 		async (gameId: number) => {
 			if (!token) {
-				throw new Error("Sessao necessaria para adicionar ao carrinho.");
+				throw new Error("Sessão necessária para adicionar ao carrinho.");
 			}
 			await addCartItem(gameId, token);
 			await refreshCart();
@@ -75,7 +75,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 	const removeFromCartHandler = useCallback(
 		async (gameId: number) => {
 			if (!token) {
-				throw new Error("Sessao necessaria para alterar o carrinho.");
+				throw new Error("Sessão necessária para alterar o carrinho.");
 			}
 			await removeCartItem(gameId, token);
 			await refreshCart();
@@ -86,7 +86,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 	const finalizePurchase = useCallback(
 		async (method: PaymentMethod) => {
 			if (!token) {
-				throw new Error("Sessao necessaria para finalizar a compra.");
+				throw new Error("Sessão necessária para finalizar a compra.");
 			}
 			await checkout(token);
 			await paySale(method, token);

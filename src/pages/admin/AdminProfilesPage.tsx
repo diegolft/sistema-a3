@@ -27,9 +27,9 @@ export function AdminProfilesPage() {
 				if (!cancelled) {
 					setProfiles(nextProfiles);
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar os perfis."));
+					setError(getFormErrorMessage(err, "Erro ao carregar os perfis."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -53,8 +53,8 @@ export function AdminProfilesPage() {
 			await createProfile({ nome: nome.trim() }, token);
 			setNome("");
 			setProfiles(await listProfiles(token));
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel criar o perfil."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível criar o perfil."));
 		} finally {
 			setSaving(false);
 		}
@@ -62,7 +62,7 @@ export function AdminProfilesPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-			<AdminSection title="Perfis cadastrados" description="Perfis cadastrados.">
+			<AdminSection title="Perfis cadastrados" description="Papéis de acesso disponíveis.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando perfis...</p>

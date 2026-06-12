@@ -24,8 +24,8 @@ export function AdminCompaniesPage() {
 
 	async function reloadCompanies() {
 		if (!token) return;
-		const nextCompanies = await listCompanies(token);
-		setCompanies(nextCompanies);
+		const result = await listCompanies(token);
+		setCompanies(result);
 	}
 
 	useEffect(() => {
@@ -37,13 +37,13 @@ export function AdminCompaniesPage() {
 			setLoading(true);
 			setError(null);
 			try {
-				const nextCompanies = await listCompanies(authToken);
+				const result = await listCompanies(authToken);
 				if (!cancelled) {
-					setCompanies(nextCompanies);
+					setCompanies(result);
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Não foi possível carregar as empresas."));
+					setError(getFormErrorMessage(err, "Erro ao carregar as empresas."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -73,8 +73,8 @@ export function AdminCompaniesPage() {
 			setSelectedCompany(null);
 			setNome("");
 			await reloadCompanies();
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Não foi possível salvar a empresa."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível salvar a empresa."));
 		} finally {
 			setSaving(false);
 		}
@@ -91,8 +91,8 @@ export function AdminCompaniesPage() {
 				setNome("");
 			}
 			await reloadCompanies();
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Não foi possível remover a empresa."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível remover a empresa."));
 		}
 	}
 
@@ -104,8 +104,8 @@ export function AdminCompaniesPage() {
 			setSelectedCompanyId(id);
 			setSelectedCompany(company);
 			setNome(company.nome);
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Não foi possível carregar a empresa selecionada."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível carregar a empresa selecionada."));
 		}
 	}
 

@@ -105,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		} catch (error) {
 			if (error instanceof ApiError && error.status === 401) {
 				clearSession();
-				toast.error("Sua sessao expirou. Entre novamente.");
+				toast.error("Sua sessão expirou. Entre novamente.");
 				return null;
 			}
 			throw error;
@@ -152,7 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const changePassword = useCallback(
 		async (body: ChangePasswordBody) => {
 			if (!token) {
-				throw new Error("Sessao necessaria para alterar a senha.");
+				throw new Error("Sessão necessária para alterar a senha.");
 			}
 			await changePasswordApi(body, token);
 		},
@@ -162,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const updateProfileHandler = useCallback(
 		async (body: UpdateUserBody) => {
 			if (!token || !user) {
-				throw new Error("Sessao necessaria para atualizar o perfil.");
+				throw new Error("Sessão necessária para atualizar o perfil.");
 			}
 			await updateUser(user.id, body, token);
 			await refreshUser();

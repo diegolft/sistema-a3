@@ -21,13 +21,13 @@ export function AdminCategoriesPage() {
 			setLoading(true);
 			setError(null);
 			try {
-				const nextCategories = await listCategories(authToken);
+				const list = await listCategories(authToken);
 				if (!cancelled) {
-					setCategories(nextCategories);
+					setCategories(list);
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Não foi possível carregar as categorias."));
+					setError(getFormErrorMessage(err, "Erro ao carregar as categorias."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -47,8 +47,8 @@ export function AdminCategoriesPage() {
 		try {
 			const category = await getCategoryById(id, token);
 			setSelectedCategory(category);
-		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Não foi possível consultar a categoria."));
+		} catch (err) {
+			setError(getFormErrorMessage(err, "Não foi possível consultar a categoria."));
 		}
 	}
 
@@ -86,7 +86,7 @@ export function AdminCategoriesPage() {
 					</div>
 				) : (
 					<p className="text-[14px] text-neutral-400">
-						Selecione uma categoria na lista para consultar o endpoint individual.
+						Selecione uma categoria na lista para ver os detalhes.
 					</p>
 				)}
 			</AdminSection>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Gamepad2, Shield, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Gamepad2, Shield, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { GameCard } from "@/components/games/GameCard";

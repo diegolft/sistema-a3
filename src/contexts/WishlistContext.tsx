@@ -60,7 +60,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 	const toggleWishlist = useCallback(
 		async (gameId: number) => {
 			if (!token) {
-				throw new Error("Sessao necessaria para acessar a lista de desejos.");
+				throw new Error("Sessão necessária para acessar a lista de desejos.");
 			}
 
 			if (wishlistIds.includes(gameId)) {
@@ -79,7 +79,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
 			await addWishlistGame(gameId, token);
 			await refreshWishlist();
-			toast.success("Adicionado a lista de desejos!");
+			toast.success("Adicionado à lista de desejos!");
 		},
 		[refreshWishlist, token, wishlistIds],
 	);

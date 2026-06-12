@@ -47,28 +47,28 @@ export function GamesPage() {
 			setError(null);
 			try {
 				if (isAuthenticated && token) {
-					const [nextGames, nextCategories, nextTopSales] = await Promise.all([
+					const [catalog, categoryList, topSales] = await Promise.all([
 						listGames(token),
 						listCategories(token),
 						getMostSoldGamesReport(token, { top: 3 }).catch(() => []),
 					]);
 
 					if (!cancelled) {
-						setGames(nextGames);
-						setCategories(["Todos", ...nextCategories.map((item) => item.nome)]);
-						setTopSellerNames(new Set(nextTopSales.slice(0, 3).map((s) => s.nome)));
+						setGames(catalog);
+						setCategories(["Todos", ...categoryList.map((item) => item.nome)]);
+						setTopSellerNames(new Set(topSales.slice(0, 3).map((s) => s.nome)));
 					}
 					return;
 				}
 
-				const nextGames = await listPublicGames();
+				const catalog = await listPublicGames();
 				if (!cancelled) {
-					setGames(nextGames);
-					setCategories(["Todos", ...new Set(nextGames.map((item) => item.categoriaNome))]);
+					setGames(catalog);
+					setCategories(["Todos", ...new Set(catalog.map((item) => item.categoriaNome))]);
 				}
-			} catch (nextError) {
+			} catch (err) {
 				if (!cancelled) {
-					setError(nextError instanceof Error ? nextError.message : "Não foi possível carregar o catálogo.");
+					setError(err instanceof Error ? err.message : "Erro ao carregar o catálogo. Tente novamente.");
 					setGames([]);
 					setCategories(["Todos"]);
 				}

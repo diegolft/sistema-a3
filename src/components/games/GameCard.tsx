@@ -27,7 +27,7 @@ export function GameCard({ game, mode, isTopSeller }: Props) {
 		try {
 			await toggleWishlist(gameId);
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Nao foi possivel atualizar a lista de desejos.");
+			toast.error(error instanceof Error ? error.message : "Não foi possível atualizar a lista de desejos.");
 		}
 	}
 
@@ -35,7 +35,7 @@ export function GameCard({ game, mode, isTopSeller }: Props) {
 		try {
 			await addToCart(gameId);
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Nao foi possivel adicionar ao carrinho.");
+			toast.error(error instanceof Error ? error.message : "Não foi possível adicionar ao carrinho.");
 		}
 	}
 

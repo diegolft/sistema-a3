@@ -24,17 +24,17 @@ export function SalesHistoryPage() {
 			setLoading(true);
 			setError(null);
 			try {
-				const nextSales = await listSales(authToken);
+				const loaded = await listSales(authToken);
 				if (!cancelled) {
 					setSales(
-						nextSales.sort(
+						loaded.sort(
 							(a, b) => new Date(b.data).getTime() - new Date(a.data).getTime(),
 						),
 					);
 				}
 			} catch (err) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(err, "Não foi possível carregar o histórico."));
+					setError(getFormErrorMessage(err, "Erro ao buscar seu histórico de compras."));
 				}
 			} finally {
 				if (!cancelled) {

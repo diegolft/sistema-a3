@@ -40,7 +40,7 @@ export function AppHeader() {
 			<ConfirmDialog
 				open={logoutOpen}
 				title="Sair da conta?"
-				description="Voce precisara entrar novamente para acessar biblioteca, perfil e painel administrativo."
+				description="Você precisará entrar novamente para acessar biblioteca, perfil e painel administrativo."
 				cancelLabel="Cancelar"
 				confirmLabel="Sair"
 				onCancel={() => setLogoutOpen(false)}
@@ -161,7 +161,7 @@ export function AppHeader() {
 				<nav
 					id="mobile-main-nav"
 					className="border-t border-white/10 bg-[#121212] px-5 py-4 md:hidden"
-					aria-label="Navegacao principal"
+					aria-label="Navegação principal"
 				>
 					<div className="mx-auto flex max-w-7xl flex-col gap-1">
 						{isAuthenticated ? null : (
