@@ -43,7 +43,7 @@ export function AdminCompaniesPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar as empresas."));
+					setError(getFormErrorMessage(nextError, "Não foi possível carregar as empresas."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -74,7 +74,7 @@ export function AdminCompaniesPage() {
 			setNome("");
 			await reloadCompanies();
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel salvar a empresa."));
+			setError(getFormErrorMessage(nextError, "Não foi possível salvar a empresa."));
 		} finally {
 			setSaving(false);
 		}
@@ -92,7 +92,7 @@ export function AdminCompaniesPage() {
 			}
 			await reloadCompanies();
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel remover a empresa."));
+			setError(getFormErrorMessage(nextError, "Não foi possível remover a empresa."));
 		}
 	}
 
@@ -105,13 +105,13 @@ export function AdminCompaniesPage() {
 			setSelectedCompany(company);
 			setNome(company.nome);
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel carregar a empresa selecionada."));
+			setError(getFormErrorMessage(nextError, "Não foi possível carregar a empresa selecionada."));
 		}
 	}
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-			<AdminSection title="Empresas" description="CRUD de empresas via /empresas.">
+			<AdminSection title="Empresas" description="Empresas cadastradas">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando empresas...</p>
@@ -158,7 +158,7 @@ export function AdminCompaniesPage() {
 
 			<AdminSection
 				title={selectedCompany ? "Editar empresa" : "Nova empresa"}
-				description="Consome POST /empresas e PUT /empresas/:id."
+				description="Cadastrar nova empresa."
 			>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<label className="block text-[13px] font-semibold text-neutral-200">

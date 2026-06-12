@@ -40,7 +40,7 @@ export function AdminUsersPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar os usuarios."));
+					setError(getFormErrorMessage(nextError, "Não foi possível carregar os usuários."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -72,7 +72,7 @@ export function AdminUsersPage() {
 			setDataNascimento(toInputDate(user.dataNascimento));
 			setFkPerfil(String(user.fkPerfil));
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel carregar o usuario selecionado."));
+			setError(getFormErrorMessage(nextError, "Não foi possível carregar o usuário selecionado."));
 		}
 	}
 
@@ -94,7 +94,7 @@ export function AdminUsersPage() {
 			await reloadUsers();
 			await handleSelectUser(selectedUser.id);
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel salvar o usuario."));
+			setError(getFormErrorMessage(nextError, "Não foi possível salvar o usuário."));
 		} finally {
 			setSaving(false);
 		}
@@ -102,10 +102,10 @@ export function AdminUsersPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-			<AdminSection title="Usuarios" description="Consome GET /usuarios e GET /usuarios/:id.">
+			<AdminSection title="Usuários" description="Usuários ativos">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
-					<p className="text-[14px] text-neutral-400">Carregando usuarios...</p>
+					<p className="text-[14px] text-neutral-400">Carregando usuários...</p>
 				) : (
 					<div className="overflow-x-auto">
 						<table className="min-w-full text-left text-[14px]">
@@ -115,7 +115,7 @@ export function AdminUsersPage() {
 									<th className="pb-3 pr-4">Nome</th>
 									<th className="pb-3 pr-4">E-mail</th>
 									<th className="pb-3 pr-4">Perfil</th>
-									<th className="pb-3">Acao</th>
+									<th className="pb-3">Ação</th>
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-white/10">
@@ -149,7 +149,7 @@ export function AdminUsersPage() {
 				)}
 			</AdminSection>
 
-			<AdminSection title="Editar usuario" description="Consome PUT /usuarios/:id.">
+			<AdminSection title="Editar usuário" description="">
 				{selectedUser ? (
 					<form onSubmit={handleSubmit} className="space-y-4">
 						<label className="block text-[13px] font-semibold text-neutral-200">
@@ -193,11 +193,11 @@ export function AdminUsersPage() {
 							</select>
 						</label>
 						<button type="submit" className={adminButtonClass} disabled={saving}>
-							{saving ? "Salvando..." : "Salvar usuario"}
+							{saving ? "Salvando..." : "Salvar usuário"}
 						</button>
 					</form>
 				) : (
-					<p className="text-[14px] text-neutral-400">Selecione um usuario na tabela para editar.</p>
+					<p className="text-[14px] text-neutral-400">Selecione um usuário na tabela para editar.</p>
 				)}
 			</AdminSection>
 		</div>

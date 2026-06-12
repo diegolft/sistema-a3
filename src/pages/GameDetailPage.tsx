@@ -292,13 +292,19 @@ export function GameDetailPage() {
 								</div>
 							</fieldset>
 						</div>
-						<textarea
-							value={comment}
-							onChange={(event) => setComment(event.target.value)}
-							rows={4}
-							placeholder="Escreva seu comentário..."
-							className="w-full resize-none rounded-xl border border-white/10 bg-gs-raised px-3.5 py-2.5 text-[14px] text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-[var(--color-gs-accent)]/40 focus:bg-gs-surface focus:ring-2 focus:ring-[var(--color-gs-accent)]/15"
-						/>
+						<div>
+							<label htmlFor="review-comment" className="mb-2 block text-[13px] font-medium text-neutral-300">
+								Comentário
+							</label>
+							<textarea
+								id="review-comment"
+								value={comment}
+								onChange={(event) => setComment(event.target.value)}
+								rows={4}
+								placeholder="Escreva seu comentário..."
+								className="w-full resize-none rounded-xl border border-white/10 bg-gs-raised px-3.5 py-2.5 text-[14px] text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-[var(--color-gs-accent)]/40 focus:bg-gs-surface focus:ring-2 focus:ring-[var(--color-gs-accent)]/15"
+							/>
+						</div>
 						<button
 							type="submit"
 							disabled={savingReview}

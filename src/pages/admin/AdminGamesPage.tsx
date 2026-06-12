@@ -79,7 +79,7 @@ export function AdminGamesPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar os jogos."));
+					setError(getFormErrorMessage(nextError, "Não foi possível carregar os jogos."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -119,7 +119,7 @@ export function AdminGamesPage() {
 			setSelectedGameId(id);
 			setSelectedGame(game);
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel carregar o jogo selecionado."));
+			setError(getFormErrorMessage(nextError, "Não foi possível carregar o jogo selecionado."));
 		}
 	}
 
@@ -154,7 +154,7 @@ export function AdminGamesPage() {
 			setForm(EMPTY_FORM);
 			await reloadAll();
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel salvar o jogo."));
+			setError(getFormErrorMessage(nextError, "Não foi possível salvar o jogo."));
 		} finally {
 			setSaving(false);
 		}
@@ -172,13 +172,13 @@ export function AdminGamesPage() {
 			}
 			await reloadAll();
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel remover o jogo."));
+			setError(getFormErrorMessage(nextError, "Não foi possível remover o jogo."));
 		}
 	}
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)]">
-			<AdminSection title="Catalogo" description="Consome GET, POST, PUT e DELETE em /jogos.">
+			<AdminSection title="Catálogo" description="Jogos disponíveis.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando jogos...</p>
@@ -227,7 +227,7 @@ export function AdminGamesPage() {
 
 			<AdminSection
 				title={selectedGame ? "Editar jogo" : "Novo jogo"}
-				description="Formulario conectado ao contrato de UpsertGameDto."
+				description="Cadastrar novo jogo."
 			>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<label className="block text-[13px] font-semibold text-neutral-200">
@@ -240,7 +240,7 @@ export function AdminGamesPage() {
 						/>
 					</label>
 					<label className="block text-[13px] font-semibold text-neutral-200">
-						Descricao
+						Descrição
 						<textarea
 							className={`${adminInputClass} mt-2 min-h-28`}
 							value={form.descricao}
@@ -249,7 +249,7 @@ export function AdminGamesPage() {
 					</label>
 					<div className="grid gap-4 md:grid-cols-2">
 						<label className="block text-[13px] font-semibold text-neutral-200">
-							Preco
+							Preço
 							<input
 								type="number"
 								step="0.01"

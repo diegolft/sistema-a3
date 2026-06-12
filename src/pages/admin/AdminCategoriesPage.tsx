@@ -27,7 +27,7 @@ export function AdminCategoriesPage() {
 				}
 			} catch (nextError) {
 				if (!cancelled) {
-					setError(getFormErrorMessage(nextError, "Nao foi possivel carregar as categorias."));
+					setError(getFormErrorMessage(nextError, "Não foi possível carregar as categorias."));
 				}
 			} finally {
 				if (!cancelled) {
@@ -48,13 +48,13 @@ export function AdminCategoriesPage() {
 			const category = await getCategoryById(id, token);
 			setSelectedCategory(category);
 		} catch (nextError) {
-			setError(getFormErrorMessage(nextError, "Nao foi possivel consultar a categoria."));
+			setError(getFormErrorMessage(nextError, "Não foi possível consultar a categoria."));
 		}
 	}
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-			<AdminSection title="Categorias" description="Consulta GET /categorias e GET /categorias/:id.">
+			<AdminSection title="Categorias" description="Categorias de jogos.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando categorias...</p>

@@ -62,7 +62,7 @@ export function AdminProfilesPage() {
 
 	return (
 		<div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-			<AdminSection title="Perfis cadastrados" description="Consome GET /profiles.">
+			<AdminSection title="Perfis cadastrados" description="Perfis cadastrados.">
 				{error ? <p className="mb-4 text-[13px] text-amber-300">{error}</p> : null}
 				{loading ? (
 					<p className="text-[14px] text-neutral-400">Carregando perfis...</p>
@@ -81,7 +81,7 @@ export function AdminProfilesPage() {
 				)}
 			</AdminSection>
 
-			<AdminSection title="Novo perfil" description="Consome POST /profiles.">
+			<AdminSection title="Novo perfil" description="Cadastrar novo perfil.">
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<label className="block text-[13px] font-semibold text-neutral-200">
 						Nome do perfil
